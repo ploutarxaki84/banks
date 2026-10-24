@@ -13,9 +13,7 @@
 
     :root {
         --income-color: #00ff88;
-        --income-glow: rgba(0, 255, 136, 0.5);
         --expense-color: #ff4757;
-        --expense-glow: rgba(255, 71, 87, 0.5);
         --cyan: #00f2ff;
         --purple: #9d00ff;
     }
@@ -166,6 +164,7 @@
     .modal-input { width: 100%; padding: 12px; background: rgba(5, 5, 12, 0.8); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; color: #fff; font-family: 'Orbitron', sans-serif; }
     .btn-primary { background: linear-gradient(135deg, var(--cyan), var(--purple)); color: #050508; padding: 12px; border-radius: 8px; border: none; font-family: 'Orbitron'; font-weight: bold; cursor: pointer; flex: 1; }
     
+    /* ANALYSIS PANEL */
     #analysis-panel { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.95); width: 95%; max-width: 1400px; height: 90dvh; background: rgba(10, 10, 20, 0.95); border: 2px solid rgba(0, 242, 255, 0.3); border-radius: 12px; z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.3s ease; display: flex; flex-direction: column; }
     #analysis-panel.active { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
     .analysis-header { padding: 15px 20px; border-bottom: 2px solid rgba(0, 242, 255, 0.3); display: flex; justify-content: space-between; align-items: center;}
@@ -181,6 +180,12 @@
     .bank-modal-header { display: flex; justify-content: space-between; padding: 15px 20px; border-bottom: 2px solid rgba(0, 242, 255, 0.2); }
     .bank-modal-body { padding: 20px; overflow-y: auto; }
     .bank-transaction-item { display: flex; justify-content: space-between; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px; margin-bottom: 8px; border-left: 3px solid; }
+
+    /* MONTHS MODAL */
+    #months-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 10px; }
+    .months-modal-content { background: rgba(10, 10, 20, 0.95); border: 2px solid rgba(0, 242, 255, 0.3); border-radius: 16px; width: 100%; max-width: 500px; display: flex; flex-direction: column; }
+    .month-selector-btn { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #fff; margin-bottom: 8px; cursor: pointer; border-left: 3px solid var(--cyan); transition: all 0.2s; }
+    .month-selector-btn:hover { background: rgba(255, 255, 255, 0.1); transform: translateX(3px); }
 
     /* ===========================================
        RESPONSIVE
@@ -314,12 +319,12 @@
 
         <section class="dashboard">
             <div class="dashboard-cards">
-                <!-- ΣΕΙΡΑ: P-A-N-E (Πειραιώς, Alpha, NBG, Eurobank) -->
+                <!-- ΣΕΙΡΑ: P-A-N-E -->
                 <div class="stat-card piraeus-card" onclick="openBankModal('piraeus')">
                     <div class="card-accent piraeus-accent"></div>
                     <div class="card-icon"><svg><use href="#icon-piraeus"></use></svg></div>
                     <div class="card-content">
-                        <h3 class="card-title">ΠΕΙΡΑΙΩΣ</h3>
+                        <h3 class="card-title">PIRAEUS</h3>
                         <p class="card-value" id="stat-piraeus">0.00 €</p>
                     </div>
                 </div>
@@ -420,7 +425,7 @@
                 <div class="form-group">
                     <label>ΤΡΑΠΕΖΑ</label>
                     <select id="in-cat" class="modal-input">
-                        <option value="piraeus">ΠΕΙΡΑΙΩΣ</option>
+                        <option value="piraeus">PIRAEUS</option>
                         <option value="alpha">ALPHA BANK</option>
                         <option value="nbg">NBG</option>
                         <option value="eurobank">EUROBANK</option>
@@ -442,6 +447,19 @@
         </div>
     </div>
 
+    <!-- MONTHS MODAL -->
+    <div id="months-modal-overlay">
+        <div class="months-modal-content">
+            <div class="bank-modal-header">
+                <h3 style="color: var(--purple); font-family: 'Orbitron';">ΜΗΝΕΣ</h3>
+                <button id="months-modal-close-btn" style="background: none; border: none; color: #fff; cursor: pointer; font-size: 18px;"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="bank-modal-body" id="months-modal-list">
+                <!-- Οι μήνες θα φορτωθούν εδώ -->
+            </div>
+        </div>
+    </div>
+
     <input type="file" id="fileInput" accept=".json" style="display: none;">
 
     <script>
@@ -449,13 +467,12 @@
     const MONTHS_SHORT = ['ΙΑΝ', 'ΦΕΒ', 'ΜΑΡ', 'ΑΠΡ', 'ΜΑΙ', 'ΙΟΥΝ', 'ΙΟΥΛ', 'ΑΥΓ', 'ΣΕΠ', 'ΟΚΤ', 'ΝΟΕ', 'ΔΕΚ'];
 
     const CATEGORY_COLORS = { 'eurobank': '#ff2a2a', 'alpha': '#0055ff', 'nbg': '#00f2ff', 'piraeus': '#ffcc00' };
-    const CATEGORY_NAMES = { 'eurobank': 'EUROBANK', 'alpha': 'ALPHA BANK', 'nbg': 'NBG', 'piraeus': 'ΠΕΙΡΑΙΩΣ' };
+    const CATEGORY_NAMES = { 'eurobank': 'EUROBANK', 'alpha': 'ALPHA BANK', 'nbg': 'NBG', 'piraeus': 'PIRAEUS' };
     
     const INCOME_COLOR = '#00ff88';
     const EXPENSE_COLOR = '#ff4757';
 
     let db = JSON.parse(localStorage.getItem('isologismos_db')) || [];
-    let currentBankModalCategory = null;
 
     document.addEventListener('DOMContentLoaded', function() {
         const today = new Date();
@@ -523,7 +540,7 @@
         const grid = document.getElementById('analysis-grid');
         
         let html = `<table class="analysis-table"><thead><tr><th>ΜΗΝΑΣ</th>
-            <th>ΠΕΙΡΑΙΩΣ</th><th>ALPHA</th><th>NBG</th><th>EUROBANK</th>
+            <th>PIRAEUS</th><th>ALPHA</th><th>NBG</th><th>EUROBANK</th>
         </tr></thead><tbody>`;
 
         const currentYear = new Date().getFullYear();
@@ -547,7 +564,6 @@
 
     /* === ΛΕΙΤΟΥΡΓΙΑ ΤΡΑΠΕΖΑΣ (MODAL) === */
     function openBankModal(category) {
-        currentBankModalCategory = category;
         const bankName = CATEGORY_NAMES[category];
         const bankColor = CATEGORY_COLORS[category];
         
@@ -555,7 +571,6 @@
         document.getElementById('bank-modal-title').style.color = bankColor;
         document.getElementById('bank-modal-overlay').style.display = 'flex';
         
-        // Υπολογισμός συνολικού υπολοίπου τράπεζας
         let total = 0;
         const bankData = db.filter(e => e.category === category);
         bankData.forEach(e => {
@@ -567,7 +582,6 @@
         totalEl.style.color = bankColor;
         totalEl.style.textShadow = `0 0 10px ${bankColor}66`;
 
-        // Λίστα τελευταίων 5 συναλλαγών
         const last5 = [...bankData].sort((a, b) => b.id - a.id).slice(0, 5);
         const listEl = document.getElementById('bank-modal-list');
         
@@ -596,9 +610,33 @@
         }
     }
 
-    function closeBankModal() {
-        document.getElementById('bank-modal-overlay').style.display = 'none';
-        currentBankModalCategory = null;
+    /* === ΛΕΙΤΟΥΡΓΙΑ ΜΗΝΩΝ === */
+    function openMonthsModal() {
+        document.getElementById('months-modal-overlay').style.display = 'flex';
+        const listEl = document.getElementById('months-modal-list');
+        const currentYear = new Date().getFullYear();
+        
+        let html = '';
+        for (let m = 0; m < 12; m++) {
+            let monthTotal = 0;
+            db.forEach(e => {
+                const d = new Date(e.date);
+                if (d.getFullYear() === currentYear && d.getMonth() === m) {
+                    monthTotal += parseFloat(e.amount) * (e.type === 'income' ? 1 : -1);
+                }
+            });
+            
+            const color = monthTotal >= 0 ? INCOME_COLOR : EXPENSE_COLOR;
+            const sign = monthTotal >= 0 ? '+' : '';
+
+            html += `
+                <div class="month-selector-btn" onclick="alert('Θα δείτε τις συναλλαγές του μήνα εδώ.')">
+                    <span style="font-family: 'Orbitron'; font-size: 12px;">${MONTHS_GREEK[m].toUpperCase()}</span>
+                    <span style="font-family: 'Orbitron'; font-weight: bold; color: ${color};">${sign}${monthTotal.toFixed(2)} €</span>
+                </div>
+            `;
+        }
+        listEl.innerHTML = html;
     }
 
     /* === ΑΛΛΕΣ ΛΕΙΤΟΥΡΓΙΕΣ === */
@@ -613,13 +651,16 @@
             document.getElementById('in-cat').value = 'piraeus';
         };
         
-        document.getElementById('bank-modal-close-btn').onclick = closeBankModal;
+        document.getElementById('bank-modal-close-btn').onclick = () => document.getElementById('bank-modal-overlay').style.display = 'none';
+        document.getElementById('months-modal-close-btn').onclick = () => document.getElementById('months-modal-overlay').style.display = 'none';
+        
         document.getElementById('modal-close-btn').onclick = closeModal;
         document.getElementById('cancel-btn').onclick = closeModal;
         document.getElementById('save-entry-btn').onclick = saveEntry;
         
         document.getElementById('sidebar-export-btn').onclick = exportData;
         document.getElementById('sidebar-import-btn').onclick = () => document.getElementById('fileInput').click();
+        document.getElementById('sidebar-months-btn').onclick = openMonthsModal;
         
         document.getElementById('fileInput').onchange = (e) => {
             const file = e.target.files[0];
@@ -638,8 +679,6 @@
             };
             reader.readAsText(file);
         };
-        
-        document.getElementById('sidebar-months-btn').onclick = () => alert("Η προβολή μηνών θα ανοίξει εδώ.");
     }
 
     function closeModal() {
