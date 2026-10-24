@@ -113,19 +113,15 @@
     .analysis-btn { border-left: 3px solid var(--cyan); color: var(--cyan); }
     .analysis-btn:hover { background: rgba(0, 242, 255, 0.1); box-shadow: 0 5px 15px rgba(0, 242, 255, 0.3); }
 
-    /* ΝΕΑ ΚΑΤΑΧΩΡΗΣΗ = ΜΠΛΕ/CYAN */
     .new-transaction-btn { border-left: 3px solid var(--cyan); color: var(--cyan); }
     .new-transaction-btn:hover { background: rgba(0, 242, 255, 0.1); box-shadow: 0 5px 15px rgba(0, 242, 255, 0.3); }
 
-    /* ΕΙΣΑΓΩΓΗ = ΠΡΑΣΙΝΟ */
     .import-btn { border-left: 3px solid var(--income-color); color: var(--income-color); }
     .import-btn:hover { background: rgba(0, 255, 136, 0.1); box-shadow: 0 5px 15px var(--income-glow); }
 
-    /* ΕΞΑΓΩΓΗ = ΚΟΚΚΙΝΟ */
     .export-btn { border-left: 3px solid var(--expense-color); color: var(--expense-color); }
     .export-btn:hover { background: rgba(255, 71, 87, 0.1); box-shadow: 0 5px 15px var(--expense-glow); }
 
-    /* ΜΗΝΕΣ = ΠΟΡΦΥΡΟ */
     .months-btn { border-left: 3px solid var(--purple); color: var(--purple); margin-top: auto; }
     .months-btn:hover { background: rgba(157, 0, 255, 0.1); box-shadow: 0 5px 15px rgba(157, 0, 255, 0.3); }
 
@@ -264,7 +260,6 @@
         flex: 1; -webkit-overflow-scrolling: touch;
     }
 
-    /* ΠΙΝΑΚΑΣ - ΔΕΝ ΧΡΕΙΑΖΕΤΑΙ HORIZONTAL SCROLL */
     .transactions-table table { width: 100%; border-collapse: collapse; table-layout: fixed; }
 
     .transactions-table th {
@@ -282,17 +277,12 @@
     }
 
     .transactions-table td:first-child { color: #ffffff !important; }
-    .transactions-table td:nth-child(2) { max-width: 0; }
-    .transactions-table th:nth-child(2) { width: 30%; }
+
     .transactions-table th:nth-child(1) { width: 18%; }
+    .transactions-table th:nth-child(2) { width: 42%; }
     .transactions-table th:nth-child(3) { width: 22%; }
-    .transactions-table th:nth-child(4) { width: 20%; }
+    .transactions-table th:nth-child(4) { width: 8%;  }
     .transactions-table th:nth-child(5) { width: 10%; }
-    
-    .category-eurobank { color: #ff2a2a; }
-    .category-alpha { color: #0055ff; }
-    .category-nbg { color: var(--cyan); }
-    .category-piraeus { color: #ffcc00; }
 
     .action-buttons { display: flex; gap: 4px; justify-content: flex-end; }
 
@@ -309,12 +299,70 @@
     .delete-btn { background: rgba(255, 71, 87, 0.1); color: var(--expense-color); border: 1px solid rgba(255, 71, 87, 0.3); }
     .delete-btn:hover { background: rgba(255, 71, 87, 0.2); }
 
-    .income-row td:nth-child(4) { color: var(--income-color); }
-    .expense-row td:nth-child(4) { color: var(--expense-color); }
     .transactions-table tr:hover { background: rgba(255, 255, 255, 0.03); }
     .transactions-table .empty-row td {
         text-align: center; padding: 40px;
         color: rgba(255, 255, 255, 0.3); font-style: italic;
+    }
+
+    /* ===========================================
+       ΝΕΟΝ ΚΟΥΚΙΔΑ ΕΣΟΔΩΝ / ΕΞΟΔΩΝ
+       =========================================== */
+    .status-dot {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        position: relative;
+        vertical-align: middle;
+    }
+
+    .status-dot.income {
+        background: var(--income-color);
+        box-shadow: 0 0 6px var(--income-color), 0 0 12px var(--income-glow);
+        animation: pulse-income 1.6s ease-in-out infinite;
+    }
+
+    .status-dot.expense {
+        background: var(--expense-color);
+        box-shadow: 0 0 6px var(--expense-color), 0 0 12px var(--expense-glow);
+        animation: pulse-expense 1.6s ease-in-out infinite;
+    }
+
+    @keyframes pulse-income {
+        0%, 100% {
+            box-shadow: 0 0 6px var(--income-color), 0 0 12px var(--income-glow);
+            opacity: 1;
+        }
+        50% {
+            box-shadow: 0 0 12px var(--income-color), 0 0 22px var(--income-glow), 0 0 30px var(--income-glow);
+            opacity: 0.7;
+        }
+    }
+
+    @keyframes pulse-expense {
+        0%, 100% {
+            box-shadow: 0 0 6px var(--expense-color), 0 0 12px var(--expense-glow);
+            opacity: 1;
+        }
+        50% {
+            box-shadow: 0 0 12px var(--expense-color), 0 0 22px var(--expense-glow), 0 0 30px var(--expense-glow);
+            opacity: 0.7;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .status-dot.income, .status-dot.expense {
+            animation: none;
+            opacity: 1;
+        }
+    }
+
+    .transactions-table td.dot-cell {
+        text-align: center;
+        width: 30px;
+        padding: 10px 4px;
     }
 
     /* ANALYSIS PANEL */
@@ -610,7 +658,6 @@
         padding: 15px; overflow-y: auto;
     }
 
-    /* DETAILS TABLE - STACKED ON MOBILE */
     .details-table { width: 100%; border-collapse: collapse; }
 
     .details-table th {
@@ -630,10 +677,7 @@
     }
 
     .details-table td:first-child { color: #ffffff !important; }
-    .details-table .income-row td:nth-child(4) { color: var(--income-color); }
-    .details-table .expense-row td:nth-child(4) { color: var(--expense-color); }
 
-    /* MONTH TRANSACTIONS */
     .month-transactions-list { display: flex; flex-direction: column; gap: 10px; }
 
     .month-transaction-item {
@@ -665,7 +709,6 @@
     .income-amount-month { color: var(--income-color); }
     .expense-amount-month { color: var(--expense-color); }
 
-    /* MONTHS SELECTOR */
     .months-selector-content { display: flex; flex-direction: column; gap: 10px; }
 
     .month-selector-btn {
@@ -690,7 +733,6 @@
         font-weight: bold; white-space: nowrap;
     }
 
-    /* BANK MODAL */
     .bank-title-container { display: flex; align-items: center; gap: 10px; min-width: 0; }
     .bank-title-container svg { width: 28px; height: 28px; flex-shrink: 0; }
 
@@ -780,7 +822,6 @@
        RESPONSIVE
        =========================================== */
 
-    /* Tablets landscape / small laptops */
     @media (max-width: 1200px) {
         .main-layout { 
             grid-template-columns: 1fr; 
@@ -805,13 +846,11 @@
         .transactions-section { max-height: 70vh; }
     }
 
-    /* Tablets portrait */
     @media (max-width: 900px) {
         .dashboard-cards { grid-template-columns: repeat(2, 1fr); }
         .sidebar-buttons-container { grid-template-columns: repeat(2, 1fr); }
     }
 
-    /* Mobile landscape & small tablets */
     @media (max-width: 768px) {
         .main-header { height: 64px; padding: 0 15px; }
         .page-title { letter-spacing: 3px; }
@@ -848,17 +887,75 @@
         .month-transaction-item { flex-wrap: wrap; }
         .month-transaction-amount { margin-left: 0; }
         .bank-transaction-item { flex-wrap: wrap; }
-        
-        /* Transactions table - κρύβουμε στήλες σε mobile */
-        .transactions-table th:nth-child(2),
-        .transactions-table td:nth-child(2) { display: none; }
-        .transactions-table th:nth-child(1) { width: 30%; }
-        .transactions-table th:nth-child(3) { width: 30%; }
-        .transactions-table th:nth-child(4) { width: 25%; }
-        .transactions-table th:nth-child(5) { width: 15%; }
+
+        /* TRANSACTIONS: CARD LAYOUT ΣΕ MOBILE */
+        .transactions-table thead { display: none; }
+        .transactions-table table { table-layout: auto; }
+        .transactions-table tbody { display: flex; flex-direction: column; gap: 10px; }
+        .transactions-table tr {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            grid-template-areas:
+                "date   amount amount"
+                "desc   desc   desc"
+                "dot    dot    actions";
+            gap: 6px 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-left: 3px solid transparent;
+            border-radius: 10px;
+            padding: 12px 14px;
+            transition: all 0.2s ease;
+        }
+        .transactions-table tr:hover { background: rgba(255, 255, 255, 0.06); }
+        .transactions-table tr.income-row { border-left-color: var(--income-color); }
+        .transactions-table tr.expense-row { border-left-color: var(--expense-color); }
+        .transactions-table td {
+            padding: 0;
+            border: none;
+            display: block;
+            white-space: normal;
+            overflow: visible;
+            text-overflow: clip;
+        }
+        .transactions-table td:nth-child(1) {
+            grid-area: date;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.6) !important;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .transactions-table td:nth-child(2) {
+            grid-area: desc;
+            font-size: 13px;
+            font-weight: 500;
+            word-break: break-word;
+        }
+        .transactions-table td:nth-child(3) {
+            grid-area: amount;
+            font-size: 16px;
+            text-align: right;
+            align-self: center;
+            white-space: nowrap;
+        }
+        .transactions-table td.dot-cell {
+            grid-area: dot;
+            justify-self: start;
+            align-self: center;
+            width: auto;
+            padding: 0;
+        }
+        .transactions-table td:nth-child(5) {
+            grid-area: actions;
+            justify-self: end;
+            align-self: center;
+        }
+        .transactions-table td:nth-child(5) .action-btn {
+            width: 30px;
+            height: 30px;
+            font-size: 12px;
+        }
     }
 
-    /* Small mobile */
     @media (max-width: 480px) {
         .main-header { height: 56px; padding: 0 10px; }
         .page-title { font-size: 15px; letter-spacing: 2px; }
@@ -880,17 +977,8 @@
         .transactions-header h3 { font-size: 11px; letter-spacing: 1px; }
         .transactions-count { font-size: 9px; }
         .transactions-table { padding: 8px; }
-        .transactions-table th { padding: 8px 4px; font-size: 8px; letter-spacing: 0.5px; }
-        .transactions-table td { padding: 8px 4px; font-size: 10px; }
         
-        /* Σε πολύ μικρές οθόνες κρύβουμε και την τράπεζα */
-        .transactions-table th:nth-child(3),
-        .transactions-table td:nth-child(3) { display: none; }
-        .transactions-table th:nth-child(1) { width: 32%; }
-        .transactions-table th:nth-child(4) { width: 40%; }
-        .transactions-table th:nth-child(5) { width: 28%; }
-        
-        .action-btn { width: 24px; height: 24px; font-size: 10px; }
+        .action-btn { width: 26px; height: 26px; font-size: 11px; }
         .action-buttons { gap: 3px; }
         
         .analysis-table th { font-size: 8px; padding: 6px 2px; }
@@ -920,15 +1008,12 @@
         .cyber-amount-holo { font-size: 18px; }
     }
 
-    /* Very narrow */
     @media (max-width: 360px) {
         .page-title { letter-spacing: 1px; font-size: 13px; }
         .sidebar-btn { padding: 10px; font-size: 9px; }
-        .transactions-table th, .transactions-table td { padding: 6px 3px; font-size: 9px; }
         .action-btn { width: 22px; height: 22px; font-size: 9px; }
     }
 
-    /* Landscape mobile */
     @media (max-height: 500px) and (orientation: landscape) {
         .main-header { height: 48px; }
         .page-title { font-size: 14px; }
@@ -939,7 +1024,6 @@
         .sidebar-buttons-container { gap: 6px; }
     }
 
-    /* Large screens */
     @media (min-width: 1600px) {
         .main-layout { padding: 30px; gap: 30px; grid-template-columns: 320px 1fr; }
         .sidebar { padding: 25px; }
@@ -1081,8 +1165,8 @@
                             <tr>
                                 <th>ΗΜΕΡ/ΝΙΑ</th>
                                 <th>ΠΕΡΙΓΡΑΦΗ</th>
-                                <th>ΤΡΑΠΕΖΑ</th>
                                 <th>ΠΟΣΟ</th>
+                                <th></th>
                                 <th>ΕΝΕΡΓ.</th>
                             </tr>
                         </thead>
@@ -1279,6 +1363,12 @@
         setupEventListeners();
     });
 
+    function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
     function getYearsList() {
         const years = new Set([new Date().getFullYear()]);
         db.forEach(entry => {
@@ -1418,17 +1508,17 @@
                 const isIncome = entry.type === 'income';
                 const rowClass = isIncome ? 'bank-transaction-income' : 'bank-transaction-expense';
                 const sign = isIncome ? '+' : '-';
-                const amountColor = isIncome ? INCOME_COLOR : EXPENSE_COLOR;
                 
                 listHtml += `
                     <div class="bank-transaction-item ${rowClass}">
                         <div class="bank-transaction-info">
-                            <div class="bank-transaction-desc">${entry.desc || '-'}</div>
+                            <div class="bank-transaction-desc">${escapeHtml(entry.desc || '-')}</div>
                             <div class="bank-transaction-date">${formatDate(entry.date)}</div>
                         </div>
-                        <div class="bank-transaction-amount" style="color: ${amountColor}">
+                        <div class="bank-transaction-amount" style="color: ${categoryColor}; text-shadow: 0 0 6px ${categoryColor}66;">
                             ${sign}${parseFloat(entry.amount).toFixed(2)} €
                         </div>
+                        <span class="status-dot ${isIncome ? 'income' : 'expense'}" title="${isIncome ? 'Έσοδο' : 'Έξοδο'}"></span>
                     </div>
                 `;
             });
@@ -1513,23 +1603,23 @@
         lastTransactions.forEach(entry => {
             const isIncome = entry.type === 'income';
             const rowClass = isIncome ? 'income-row' : 'expense-row';
-            const amountColor = isIncome ? INCOME_COLOR : EXPENSE_COLOR;
             const sign = isIncome ? '+' : '-';
+            const bankColor = CATEGORY_COLORS[entry.category];
 
             html += `
                 <tr class="${rowClass}">
-                    <td style="color: #ffffff; font-family: 'Orbitron', sans-serif;">${formatDate(entry.date)}</td>
-                    <td style="color: ${amountColor};" title="${entry.desc || '-'}">${entry.desc || '-'}</td>
-                    <td class="category-${entry.category}" style="font-family: 'Orbitron', sans-serif; font-weight: bold;">
-                        ${CATEGORY_NAMES[entry.category].replace(' BANK', '')}
-                    </td>
-                    <td style="color: ${amountColor}; font-family: 'Orbitron', sans-serif; font-weight: bold;">
+                    <td>${formatDate(entry.date)}</td>
+                    <td title="${escapeHtml(entry.desc || '-')}">${escapeHtml(entry.desc || '-')}</td>
+                    <td style="color: ${bankColor}; font-family: 'Orbitron', sans-serif; font-weight: bold; text-shadow: 0 0 6px ${bankColor}66;">
                         ${sign}${parseFloat(entry.amount).toFixed(2)} €
+                    </td>
+                    <td class="dot-cell">
+                        <span class="status-dot ${isIncome ? 'income' : 'expense'}" title="${isIncome ? 'Έσοδο' : 'Έξοδο'}"></span>
                     </td>
                     <td>
                         <div class="action-buttons">
-                            <button class="action-btn edit-btn" onclick="editTransaction(${entry.id})"><i class="fas fa-edit"></i></button>
-                            <button class="action-btn delete-btn" onclick="deleteTransaction(${entry.id})"><i class="fas fa-trash"></i></button>
+                            <button class="action-btn edit-btn" onclick="editTransaction(${entry.id})" title="Επεξεργασία"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn delete-btn" onclick="deleteTransaction(${entry.id})" title="Διαγραφή"><i class="fas fa-trash"></i></button>
                         </div>
                     </td>
                 </tr>
@@ -1603,33 +1693,33 @@
         const categoryName = CATEGORY_NAMES[category];
 
         let html = `<table class="details-table"><thead><tr>
-            <th>ΗΜΕΡ/ΝΙΑ</th><th>ΤΥΠΟΣ</th><th>ΤΡΑΠΕΖΑ</th><th>ΠΟΣΟ</th><th>ΠΕΡΙΓΡ.</th><th>ΕΝΕΡΓ.</th>
+            <th>ΗΜΕΡ/ΝΙΑ</th><th>ΠΕΡΙΓΡ.</th><th>ΠΟΣΟ</th><th></th><th>ΕΝΕΡΓ.</th>
         </tr></thead><tbody>`;
 
         if (data.length === 0) {
-            html += `<tr><td colspan="6" style="text-align: center; padding: 40px; color: rgba(255, 255, 255, 0.3);">Δεν υπάρχουν συναλλαγές</td></tr>`;
+            html += `<tr><td colspan="5" style="text-align: center; padding: 40px; color: rgba(255, 255, 255, 0.3);">Δεν υπάρχουν συναλλαγές</td></tr>`;
         } else {
             data.sort((a, b) => new Date(a.date) - new Date(b.date));
             data.forEach(entry => {
                 const isIncome = entry.type === 'income';
                 const rowClass = isIncome ? 'income-row' : 'expense-row';
-                const typeText = isIncome ? 'ΕΣΟΔΑ' : 'ΕΞΟΔΑ';
-                const amountColor = isIncome ? INCOME_COLOR : EXPENSE_COLOR;
                 const sign = isIncome ? '+' : '-';
+                const bankColor = CATEGORY_COLORS[entry.category];
 
                 html += `
                     <tr class="${rowClass}">
                         <td style="color: #ffffff;">${formatDate(entry.date)}</td>
-                        <td style="color: ${amountColor};">${typeText}</td>
-                        <td style="color: ${CATEGORY_COLORS[entry.category]};">
-                            ${CATEGORY_NAMES[entry.category].replace(' BANK', '')}
+                        <td>${escapeHtml(entry.desc || '-')}</td>
+                        <td style="color: ${bankColor}; font-weight: bold; text-shadow: 0 0 6px ${bankColor}66;">
+                            ${sign}${parseFloat(entry.amount).toFixed(2)} €
                         </td>
-                        <td style="color: ${amountColor}; font-weight: bold;">${sign}${parseFloat(entry.amount).toFixed(2)} €</td>
-                        <td>${entry.desc || '-'}</td>
+                        <td class="dot-cell">
+                            <span class="status-dot ${isIncome ? 'income' : 'expense'}" title="${isIncome ? 'Έσοδο' : 'Έξοδο'}"></span>
+                        </td>
                         <td>
                             <div class="action-buttons">
-                                <button class="action-btn edit-btn" onclick="editTransaction(${entry.id})"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn delete-btn" onclick="deleteTransaction(${entry.id})"><i class="fas fa-trash"></i></button>
+                                <button class="action-btn edit-btn" onclick="editTransaction(${entry.id})" title="Επεξεργασία"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn delete-btn" onclick="deleteTransaction(${entry.id})" title="Διαγραφή"><i class="fas fa-trash"></i></button>
                             </div>
                         </td>
                     </tr>
@@ -1783,25 +1873,22 @@
             monthData.forEach(entry => {
                 const isIncome = entry.type === 'income';
                 const rowClass = isIncome ? 'month-transaction-income' : 'month-transaction-expense';
-                const amountClass = isIncome ? 'income-amount-month' : 'expense-amount-month';
                 const sign = isIncome ? '+' : '-';
-                const categoryColor = CATEGORY_COLORS[entry.category];
+                const bankColor = CATEGORY_COLORS[entry.category];
 
                 html += `
                     <div class="month-transaction-item ${rowClass}">
                         <div class="month-transaction-desc">
-                            <div class="month-transaction-category" style="color: ${categoryColor}">
-                                ${CATEGORY_NAMES[entry.category].replace(' BANK', '')}
-                            </div>
-                            <div style="margin-bottom: 3px;">${entry.desc || '-'}</div>
+                            <div style="margin-bottom: 3px;">${escapeHtml(entry.desc || '-')}</div>
                             <div style="font-size: 10px; opacity: 0.7;">${formatDate(entry.date)}</div>
                         </div>
-                        <div class="month-transaction-amount ${amountClass}">
+                        <div class="month-transaction-amount" style="color: ${bankColor}; text-shadow: 0 0 6px ${bankColor}66;">
                             ${sign}${parseFloat(entry.amount).toFixed(2)} €
                         </div>
+                        <span class="status-dot ${isIncome ? 'income' : 'expense'}" title="${isIncome ? 'Έσοδο' : 'Έξοδο'}"></span>
                         <div class="action-buttons">
-                            <button class="action-btn edit-btn" onclick="editTransaction(${entry.id})"><i class="fas fa-edit"></i></button>
-                            <button class="action-btn delete-btn" onclick="deleteTransaction(${entry.id})"><i class="fas fa-trash"></i></button>
+                            <button class="action-btn edit-btn" onclick="editTransaction(${entry.id})" title="Επεξεργασία"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn delete-btn" onclick="deleteTransaction(${entry.id})" title="Διαγραφή"><i class="fas fa-trash"></i></button>
                         </div>
                     </div>
                 `;
