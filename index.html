@@ -184,7 +184,8 @@
     .list-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: rgba(255,255,255,0.03); border-radius: 8px; margin-bottom: 8px; border-left: 3px solid; gap: 10px; flex-wrap: wrap; }
     .list-item-info { flex: 1; min-width: 150px; }
     .list-item-desc { font-size: 14px; margin-bottom: 4px; }
-    .list-item-date { font-size: 11px; color: #888; }
+    .list-item-date { font-size: 11px; color: #888; display: flex; align-items: center; gap: 6px; }
+    .bank-tag { font-family: 'Orbitron'; font-size: 9px; padding: 2px 6px; border-radius: 4px; border: 1px solid; text-transform: uppercase; }
     .list-item-amount { font-family: 'Orbitron'; font-weight: bold; font-size: 15px; white-space: nowrap; }
     .list-item-actions { display: flex; gap: 6px; }
 
@@ -473,22 +474,31 @@
         }
         
         let html = '';
-        // Ταξινόμηση κατά ημερομηνία (νεότερα πρώτα)
         const sorted = [...transactions].sort((a, b) => new Date(b.date) - new Date(a.date));
         
         sorted.forEach(e => {
             const isIncome = e.type === 'income';
             const sign = isIncome ? '+' : '-';
-            const amountColor = isIncome ? INCOME_COLOR : EXPENSE_COLOR;
+            
+            // Εδώ ορίζουμε το χρώμα του ποσού να είναι ΤΟ ΧΡΩΜΑ ΤΗΣ ΤΡΑΠΕΖΑΣ
+            const bankColor = CATEGORY_COLORS[e.category]; 
+            const bankName = CATEGORY_NAMES[e.category];
+            
             const dateStr = new Date(e.date).toLocaleDateString('el-GR');
             
+            // Το border-left δείχνει αν είναι έσοδο (πράσινο) ή έξοδο (κόκκινο)
+            const borderColor = isIncome ? INCOME_COLOR : EXPENSE_COLOR;
+
             html += `
-                <div class="list-item" style="border-left-color: ${amountColor};">
+                <div class="list-item" style="border-left-color: ${borderColor};">
                     <div class="list-item-info">
                         <div class="list-item-desc">${e.desc || '-'}</div>
-                        <div class="list-item-date">${dateStr}</div>
+                        <div class="list-item-date">
+                            ${dateStr}
+                            <span class="bank-tag" style="color: ${bankColor}; border-color: ${bankColor}66; text-shadow: 0 0 5px ${bankColor}66;">${bankName}</span>
+                        </div>
                     </div>
-                    <div class="list-item-amount" style="color: ${amountColor};">
+                    <div class="list-item-amount" style="color: ${bankColor}; text-shadow: 0 0 6px ${bankColor}66;">
                         ${sign}${parseFloat(e.amount).toFixed(2)} €
                     </div>
                     <div class="list-item-actions">
@@ -597,7 +607,6 @@
         grid.innerHTML = html;
     }
 
-    // Άνοιγμα λεπτομερειών από το κελί της Ανάλυσης
     function openAnalysisCellDetails(monthIndex, category) {
         const currentYear = new Date().getFullYear();
         const data = db.filter(e => {
@@ -606,7 +615,7 @@
         });
 
         const title = `${MONTHS_GREEK[monthIndex]} - ${CATEGORY_NAMES[category]}`;
-        openListModal(title, data);
+        openListModal(title, data, CATEGORY_COLORS[category]);
     }
 
     /* === ΛΕΙΤΟΥΡΓΙΑ ΤΡΑΠΕΖΑΣ === */
@@ -618,10 +627,9 @@
 
     /* === ΛΕΙΤΟΥΡΓΙΑ ΜΗΝΩΝ === */
     function showMonths() {
-        const listEl = document.getElementById('months-modal-list');
         const currentYear = new Date().getFullYear();
-        
         let html = '';
+        
         for (let m = 0; m < 12; m++) {
             let monthTotal = 0;
             db.forEach(e => {
@@ -642,7 +650,6 @@
             `;
         }
         
-        // Ανοίγουμε το γενικό modal για τους μήνες
         document.getElementById('list-modal-title').textContent = "ΕΠΙΛΟΓΗ ΜΗΝΑ";
         document.getElementById('list-modal-title').style.color = "var(--purple)";
         document.getElementById('list-modal-summary').style.display = 'none';
@@ -650,7 +657,6 @@
         document.getElementById('list-modal-overlay').style.display = 'flex';
     }
 
-    // Άνοιγμα λεπτομερειών από το modal των Μηνών
     function openMonthDetails(monthIndex) {
         const currentYear = new Date().getFullYear();
         const data = db.filter(e => {
@@ -667,7 +673,6 @@
         document.getElementById('list-modal-title').textContent = title;
         document.getElementById('list-modal-title').style.color = color || "var(--cyan)";
         
-        // Υπολογισμός συνόλου για το summary
         let total = 0;
         data.forEach(e => {
             total += parseFloat(e.amount) * (e.type === 'income' ? 1 : -1);
@@ -678,7 +683,8 @@
         
         summaryEl.style.display = 'flex';
         totalEl.textContent = `${total.toFixed(2)} €`;
-        totalEl.style.color = total >= 0 ? INCOME_COLOR : EXPENSE_COLOR;
+        // Αν είναι συγκεκριμένη τράπεζα, το σύνολο παίρνει το χρώμα της. Αλλιώς πράσινο/κόκκινο.
+        totalEl.style.color = color || (total >= 0 ? INCOME_COLOR : EXPENSE_COLOR);
         
         document.getElementById('list-modal-content').innerHTML = renderTransactionList(data);
         document.getElementById('list-modal-overlay').style.display = 'flex';
@@ -752,7 +758,6 @@
         db = db.filter(entry => entry.id !== id);
         localStorage.setItem('pane_db_v2', JSON.stringify(db));
         updateDashboard();
-        // Αν είναι ανοιχτό το list modal, το ανανεώνουμε (κλείνοντάς το για ευκολία)
         document.getElementById('list-modal-overlay').style.display = 'none'; 
     }
     
