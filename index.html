@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="el">
 <head>
@@ -173,18 +172,22 @@
     .analysis-table { width: 100%; border-collapse: collapse; }
     .analysis-table th, .analysis-table td { border: 1px solid rgba(255, 255, 255, 0.1); padding: 8px; text-align: center; font-size: 11px; }
     .analysis-table th { background: rgba(0, 242, 255, 0.1); color: var(--cyan); }
-    .analysis-bullet { width: 14px; height: 14px; border-radius: 50%; display: inline-block; }
+    .analysis-bullet { width: 14px; height: 14px; border-radius: 50%; display: inline-block; margin-bottom: 4px; }
+    .analysis-cell-clickable { cursor: pointer; transition: background 0.2s; }
+    .analysis-cell-clickable:hover { background: rgba(255, 255, 255, 0.1); }
 
-    /* BANK MODAL */
-    #bank-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 10px; }
-    .bank-modal-content { background: rgba(10, 10, 20, 0.95); border: 2px solid rgba(0, 242, 255, 0.3); border-radius: 16px; width: 100%; max-width: 700px; max-height: 90dvh; display: flex; flex-direction: column; }
-    .bank-modal-header { display: flex; justify-content: space-between; padding: 15px 20px; border-bottom: 2px solid rgba(0, 242, 255, 0.2); }
-    .bank-modal-body { padding: 20px; overflow-y: auto; }
-    .bank-transaction-item { display: flex; justify-content: space-between; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px; margin-bottom: 8px; border-left: 3px solid; }
+    /* SHARED MODAL FOR LISTS (BANK, MONTHS, DETAILS) */
+    #list-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 10px; }
+    .list-modal-content { background: rgba(10, 10, 20, 0.95); border: 2px solid var(--cyan); border-radius: 16px; width: 100%; max-width: 700px; max-height: 90dvh; display: flex; flex-direction: column; }
+    .list-modal-header { display: flex; justify-content: space-between; padding: 15px 20px; border-bottom: 2px solid rgba(0, 242, 255, 0.2); }
+    .list-modal-body { padding: 20px; overflow-y: auto; }
+    .list-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: rgba(255,255,255,0.03); border-radius: 8px; margin-bottom: 8px; border-left: 3px solid; gap: 10px; flex-wrap: wrap; }
+    .list-item-info { flex: 1; min-width: 150px; }
+    .list-item-desc { font-size: 14px; margin-bottom: 4px; }
+    .list-item-date { font-size: 11px; color: #888; }
+    .list-item-amount { font-family: 'Orbitron'; font-weight: bold; font-size: 15px; white-space: nowrap; }
+    .list-item-actions { display: flex; gap: 6px; }
 
-    /* MONTHS MODAL */
-    #months-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 10px; }
-    .months-modal-content { background: rgba(10, 10, 20, 0.95); border: 2px solid var(--purple); border-radius: 16px; width: 100%; max-width: 500px; display: flex; flex-direction: column; }
     .month-selector-btn { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #fff; margin-bottom: 8px; cursor: pointer; border-left: 3px solid var(--purple); transition: all 0.2s; }
     .month-selector-btn:hover { background: rgba(255, 255, 255, 0.1); transform: translateX(3px); }
 
@@ -244,6 +247,8 @@
         .cyber-amount { font-size: 16px; }
         .transactions-table { padding: 8px; }
         .transactions-table td:nth-child(3) { font-size: 15px; }
+        .list-item { flex-direction: column; align-items: flex-start; }
+        .list-item-actions { align-self: flex-end; margin-top: 5px; }
     }
     </style>
 </head>
@@ -288,7 +293,6 @@
     <main class="main-layout">
         <aside class="sidebar">
             <div class="sidebar-buttons-container">
-                <!-- ΑΛΛΑΓΗ IDs ΓΙΑ ΝΑ ΕΙΣΑΙ ΣΙΓΟΥΡΗ ΟΤΙ ΦΟΡΤΩΣΕ ΤΟ ΝΕΟ ΑΡΧΕΙΟ -->
                 <button class="sidebar-btn btn-analysis" id="btn-open-analysis">
                     <i class="fas fa-table"></i>
                     <span>ΑΝΑΛΥΣΗ</span>
@@ -321,7 +325,7 @@
 
         <section class="dashboard">
             <div class="dashboard-cards">
-                <!-- PIRAEUS ΑΝΤΙ ΓΙΑ ΠΕΙΡΑΙΩΣ -->
+                <!-- PIRAEUS -->
                 <div class="stat-card piraeus-card" onclick="openBankDetails('piraeus')">
                     <div class="card-accent piraeus-accent"></div>
                     <div class="card-icon"><svg><use href="#icon-piraeus"></use></svg></div>
@@ -387,20 +391,19 @@
         <div class="analysis-grid-wrapper" id="analysis-grid"></div>
     </div>
 
-    <!-- BANK MODAL -->
-    <div id="bank-modal-overlay">
-        <div class="bank-modal-content">
-            <div class="bank-modal-header">
-                <h3 id="bank-modal-title" style="color: var(--cyan); font-family: 'Orbitron';">ΤΡΑΠΕΖΑ</h3>
-                <button id="btn-close-bank" style="background: none; border: none; color: #fff; cursor: pointer; font-size: 18px;"><i class="fas fa-times"></i></button>
+    <!-- SHARED LIST MODAL (BANK, MONTHS, DETAILS) -->
+    <div id="list-modal-overlay">
+        <div class="list-modal-content">
+            <div class="list-modal-header" id="list-modal-header">
+                <h3 id="list-modal-title" style="color: var(--cyan); font-family: 'Orbitron';">ΛΙΣΤΑ</h3>
+                <button id="btn-close-list-modal" style="background: none; border: none; color: #fff; cursor: pointer; font-size: 18px;"><i class="fas fa-times"></i></button>
             </div>
-            <div class="bank-modal-body">
-                <div style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-family: 'Orbitron'; font-size: 12px; color: rgba(255,255,255,0.7);">ΣΥΝΟΛΙΚΟ ΥΠΟΛΟΙΠΟ</span>
-                    <span id="bank-modal-total" style="font-family: 'Orbitron'; font-size: 24px; font-weight: 900;">0.00 €</span>
+            <div class="list-modal-body">
+                <div id="list-modal-summary" style="margin-bottom: 15px; display: none; justify-content: space-between; align-items: center;">
+                    <span style="font-family: 'Orbitron'; font-size: 12px; color: rgba(255,255,255,0.7);">ΣΥΝΟΛΟ</span>
+                    <span id="list-modal-total" style="font-family: 'Orbitron'; font-size: 20px; font-weight: 900;">0.00 €</span>
                 </div>
-                <h4 style="font-family: 'Orbitron'; font-size: 12px; margin-bottom: 15px; color: rgba(255,255,255,0.6);">ΤΕΛΕΥΤΑΙΕΣ ΣΥΝΑΛΛΑΓΕΣ</h4>
-                <div id="bank-modal-list"></div>
+                <div id="list-modal-content"></div>
             </div>
         </div>
     </div>
@@ -449,19 +452,6 @@
         </div>
     </div>
 
-    <!-- MONTHS MODAL -->
-    <div id="months-modal-overlay">
-        <div class="months-modal-content">
-            <div class="bank-modal-header" style="border-bottom: 2px solid var(--purple);">
-                <h3 style="color: var(--purple); font-family: 'Orbitron';">ΜΗΝΕΣ</h3>
-                <button id="btn-close-months" style="background: none; border: none; color: #fff; cursor: pointer; font-size: 18px;"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="bank-modal-body" id="months-modal-list">
-                <!-- Οι μήνες θα φορτωθούν εδώ -->
-            </div>
-        </div>
-    </div>
-
     <input type="file" id="fileInput" accept=".json" style="display: none;">
 
     <script>
@@ -475,6 +465,41 @@
     const EXPENSE_COLOR = '#ff4757';
 
     let db = JSON.parse(localStorage.getItem('pane_db_v2')) || [];
+
+    // Helper για να εμφανίζονται οι λίστες συναλλαγών σε modal
+    function renderTransactionList(transactions, emptyMessage = "Δεν υπάρχουν συναλλαγές") {
+        if (transactions.length === 0) {
+            return `<p style="color: #666; text-align: center; padding: 20px;">${emptyMessage}</p>`;
+        }
+        
+        let html = '';
+        // Ταξινόμηση κατά ημερομηνία (νεότερα πρώτα)
+        const sorted = [...transactions].sort((a, b) => new Date(b.date) - new Date(a.date));
+        
+        sorted.forEach(e => {
+            const isIncome = e.type === 'income';
+            const sign = isIncome ? '+' : '-';
+            const amountColor = isIncome ? INCOME_COLOR : EXPENSE_COLOR;
+            const dateStr = new Date(e.date).toLocaleDateString('el-GR');
+            
+            html += `
+                <div class="list-item" style="border-left-color: ${amountColor};">
+                    <div class="list-item-info">
+                        <div class="list-item-desc">${e.desc || '-'}</div>
+                        <div class="list-item-date">${dateStr}</div>
+                    </div>
+                    <div class="list-item-amount" style="color: ${amountColor};">
+                        ${sign}${parseFloat(e.amount).toFixed(2)} €
+                    </div>
+                    <div class="list-item-actions">
+                        <button class="action-btn edit-btn" onclick="editTransaction(${e.id})" title="Επεξεργασία"><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete-btn" onclick="deleteTransaction(${e.id})" title="Διαγραφή"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+            `;
+        });
+        return html;
+    }
 
     document.addEventListener('DOMContentLoaded', function() {
         const today = new Date();
@@ -550,13 +575,21 @@
         for (let m = 0; m < 12; m++) {
             html += `<tr><td style="color: #9d00ff; font-weight: bold;">${MONTHS_SHORT[m]}</td>`;
             ['piraeus', 'alpha', 'nbg', 'eurobank'].forEach(cat => {
-                const count = db.filter(e => {
+                const data = db.filter(e => {
                     const d = new Date(e.date);
                     return d.getFullYear() === currentYear && d.getMonth() === m && e.category === cat;
-                }).length;
+                });
+                const count = data.length;
                 
                 const bulletColor = CATEGORY_COLORS[cat];
-                html += `<td>${count > 0 ? `<div class="analysis-bullet" style="background: ${bulletColor}; box-shadow: 0 0 8px ${bulletColor};"></div><span style="font-size: 9px; display: block; color: #aaa;">${count}</span>` : '-'}</td>`;
+                if (count > 0) {
+                    html += `<td class="analysis-cell-clickable" onclick="openAnalysisCellDetails(${m}, '${cat}')">
+                        <div class="analysis-bullet" style="background: ${bulletColor}; box-shadow: 0 0 8px ${bulletColor};"></div>
+                        <span style="font-size: 9px; display: block; color: #aaa;">${count}</span>
+                    </td>`;
+                } else {
+                    html += `<td>-</td>`;
+                }
             });
             html += `</tr>`;
         }
@@ -564,57 +597,27 @@
         grid.innerHTML = html;
     }
 
-    /* === ΛΕΙΤΟΥΡΓΙΑ ΤΡΑΠΕΖΑΣ (MODAL) === */
-    function openBankDetails(category) {
-        const bankName = CATEGORY_NAMES[category];
-        const bankColor = CATEGORY_COLORS[category];
-        
-        document.getElementById('bank-modal-title').textContent = bankName;
-        document.getElementById('bank-modal-title').style.color = bankColor;
-        document.getElementById('bank-modal-overlay').style.display = 'flex';
-        
-        let total = 0;
-        const bankData = db.filter(e => e.category === category);
-        bankData.forEach(e => {
-            total += parseFloat(e.amount) * (e.type === 'income' ? 1 : -1);
+    // Άνοιγμα λεπτομερειών από το κελί της Ανάλυσης
+    function openAnalysisCellDetails(monthIndex, category) {
+        const currentYear = new Date().getFullYear();
+        const data = db.filter(e => {
+            const d = new Date(e.date);
+            return d.getFullYear() === currentYear && d.getMonth() === monthIndex && e.category === category;
         });
-        
-        const totalEl = document.getElementById('bank-modal-total');
-        totalEl.textContent = `${total.toFixed(2)} €`;
-        totalEl.style.color = bankColor;
-        totalEl.style.textShadow = `0 0 10px ${bankColor}66`;
 
-        const last5 = [...bankData].sort((a, b) => b.id - a.id).slice(0, 5);
-        const listEl = document.getElementById('bank-modal-list');
-        
-        if (last5.length === 0) {
-            listEl.innerHTML = `<p style="color: #666; text-align: center;">Δεν υπάρχουν συναλλαγές</p>`;
-        } else {
-            let listHtml = '';
-            last5.forEach(e => {
-                const isIncome = e.type === 'income';
-                const sign = isIncome ? '+' : '-';
-                const dateStr = new Date(e.date).toLocaleDateString('el-GR');
-                
-                listHtml += `
-                    <div class="bank-transaction-item" style="border-left-color: ${isIncome ? INCOME_COLOR : EXPENSE_COLOR};">
-                        <div>
-                            <div style="font-size: 14px;">${e.desc || '-'}</div>
-                            <div style="font-size: 10px; color: #888;">${dateStr}</div>
-                        </div>
-                        <div style="font-family: 'Orbitron'; font-weight: bold; color: ${isIncome ? INCOME_COLOR : EXPENSE_COLOR};">
-                            ${sign}${parseFloat(e.amount).toFixed(2)} €
-                        </div>
-                    </div>
-                `;
-            });
-            listEl.innerHTML = listHtml;
-        }
+        const title = `${MONTHS_GREEK[monthIndex]} - ${CATEGORY_NAMES[category]}`;
+        openListModal(title, data);
+    }
+
+    /* === ΛΕΙΤΟΥΡΓΙΑ ΤΡΑΠΕΖΑΣ === */
+    function openBankDetails(category) {
+        const data = db.filter(e => e.category === category);
+        const title = CATEGORY_NAMES[category];
+        openListModal(title, data, CATEGORY_COLORS[category]);
     }
 
     /* === ΛΕΙΤΟΥΡΓΙΑ ΜΗΝΩΝ === */
     function showMonths() {
-        document.getElementById('months-modal-overlay').style.display = 'flex';
         const listEl = document.getElementById('months-modal-list');
         const currentYear = new Date().getFullYear();
         
@@ -632,18 +635,57 @@
             const sign = monthTotal >= 0 ? '+' : '';
 
             html += `
-                <div class="month-selector-btn" onclick="alert('Επιλέξατε: ${MONTHS_GREEK[m]}')">
+                <div class="month-selector-btn" onclick="openMonthDetails(${m})">
                     <span style="font-family: 'Orbitron'; font-size: 12px;">${MONTHS_GREEK[m].toUpperCase()}</span>
                     <span style="font-family: 'Orbitron'; font-weight: bold; color: ${color};">${sign}${monthTotal.toFixed(2)} €</span>
                 </div>
             `;
         }
-        listEl.innerHTML = html;
+        
+        // Ανοίγουμε το γενικό modal για τους μήνες
+        document.getElementById('list-modal-title').textContent = "ΕΠΙΛΟΓΗ ΜΗΝΑ";
+        document.getElementById('list-modal-title').style.color = "var(--purple)";
+        document.getElementById('list-modal-summary').style.display = 'none';
+        document.getElementById('list-modal-content').innerHTML = html;
+        document.getElementById('list-modal-overlay').style.display = 'flex';
+    }
+
+    // Άνοιγμα λεπτομερειών από το modal των Μηνών
+    function openMonthDetails(monthIndex) {
+        const currentYear = new Date().getFullYear();
+        const data = db.filter(e => {
+            const d = new Date(e.date);
+            return d.getFullYear() === currentYear && d.getMonth() === monthIndex;
+        });
+
+        const title = `${MONTHS_GREEK[monthIndex]} ${currentYear}`;
+        openListModal(title, data);
+    }
+
+    /* === ΓΕΝΙΚΗ ΣΥΝΑΡΤΗΣΗ ΓΙΑ MODAL ΛΙΣΤΑΣ === */
+    function openListModal(title, data, color = null) {
+        document.getElementById('list-modal-title').textContent = title;
+        document.getElementById('list-modal-title').style.color = color || "var(--cyan)";
+        
+        // Υπολογισμός συνόλου για το summary
+        let total = 0;
+        data.forEach(e => {
+            total += parseFloat(e.amount) * (e.type === 'income' ? 1 : -1);
+        });
+
+        const summaryEl = document.getElementById('list-modal-summary');
+        const totalEl = document.getElementById('list-modal-total');
+        
+        summaryEl.style.display = 'flex';
+        totalEl.textContent = `${total.toFixed(2)} €`;
+        totalEl.style.color = total >= 0 ? INCOME_COLOR : EXPENSE_COLOR;
+        
+        document.getElementById('list-modal-content').innerHTML = renderTransactionList(data);
+        document.getElementById('list-modal-overlay').style.display = 'flex';
     }
 
     /* === ΑΛΛΕΣ ΛΕΙΤΟΥΡΓΙΕΣ === */
     function setupEventListeners() {
-        // Χρησιμοποιούμε τα ΝΕΑ IDs
         document.getElementById('btn-open-analysis').onclick = showAnalysis;
         document.getElementById('btn-close-analysis').onclick = () => document.getElementById('analysis-panel').classList.remove('active');
         
@@ -654,8 +696,7 @@
             document.getElementById('in-cat').value = 'piraeus';
         };
         
-        document.getElementById('btn-close-bank').onclick = () => document.getElementById('bank-modal-overlay').style.display = 'none';
-        document.getElementById('btn-close-months').onclick = () => document.getElementById('months-modal-overlay').style.display = 'none';
+        document.getElementById('btn-close-list-modal').onclick = () => document.getElementById('list-modal-overlay').style.display = 'none';
         
         document.getElementById('btn-close-form').onclick = closeModal;
         document.getElementById('btn-cancel-form').onclick = closeModal;
@@ -711,6 +752,8 @@
         db = db.filter(entry => entry.id !== id);
         localStorage.setItem('pane_db_v2', JSON.stringify(db));
         updateDashboard();
+        // Αν είναι ανοιχτό το list modal, το ανανεώνουμε (κλείνοντάς το για ευκολία)
+        document.getElementById('list-modal-overlay').style.display = 'none'; 
     }
     
     function editTransaction(id) {
