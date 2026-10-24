@@ -467,7 +467,6 @@
 
     let db = JSON.parse(localStorage.getItem('pane_db_v2')) || [];
 
-    // Helper για να εμφανίζονται οι λίστες συναλλαγών σε modal
     function renderTransactionList(transactions, emptyMessage = "Δεν υπάρχουν συναλλαγές") {
         if (transactions.length === 0) {
             return `<p style="color: #666; text-align: center; padding: 20px;">${emptyMessage}</p>`;
@@ -479,14 +478,9 @@
         sorted.forEach(e => {
             const isIncome = e.type === 'income';
             const sign = isIncome ? '+' : '-';
-            
-            // Εδώ ορίζουμε το χρώμα του ποσού να είναι ΤΟ ΧΡΩΜΑ ΤΗΣ ΤΡΑΠΕΖΑΣ
             const bankColor = CATEGORY_COLORS[e.category]; 
             const bankName = CATEGORY_NAMES[e.category];
-            
             const dateStr = new Date(e.date).toLocaleDateString('el-GR');
-            
-            // Το border-left δείχνει αν είναι έσοδο (πράσινο) ή έξοδο (κόκκινο)
             const borderColor = isIncome ? INCOME_COLOR : EXPENSE_COLOR;
 
             html += `
@@ -571,7 +565,6 @@
         container.innerHTML = html;
     }
 
-    /* === ΛΕΙΤΟΥΡΓΙΑ ΑΝΑΛΥΣΗΣ === */
     function showAnalysis() {
         document.getElementById('analysis-panel').classList.add('active');
         const grid = document.getElementById('analysis-grid');
@@ -618,14 +611,12 @@
         openListModal(title, data, CATEGORY_COLORS[category]);
     }
 
-    /* === ΛΕΙΤΟΥΡΓΙΑ ΤΡΑΠΕΖΑΣ === */
     function openBankDetails(category) {
         const data = db.filter(e => e.category === category);
         const title = CATEGORY_NAMES[category];
         openListModal(title, data, CATEGORY_COLORS[category]);
     }
 
-    /* === ΛΕΙΤΟΥΡΓΙΑ ΜΗΝΩΝ === */
     function showMonths() {
         const currentYear = new Date().getFullYear();
         let html = '';
@@ -668,7 +659,6 @@
         openListModal(title, data);
     }
 
-    /* === ΓΕΝΙΚΗ ΣΥΝΑΡΤΗΣΗ ΓΙΑ MODAL ΛΙΣΤΑΣ === */
     function openListModal(title, data, color = null) {
         document.getElementById('list-modal-title').textContent = title;
         document.getElementById('list-modal-title').style.color = color || "var(--cyan)";
@@ -683,14 +673,12 @@
         
         summaryEl.style.display = 'flex';
         totalEl.textContent = `${total.toFixed(2)} €`;
-        // Αν είναι συγκεκριμένη τράπεζα, το σύνολο παίρνει το χρώμα της. Αλλιώς πράσινο/κόκκινο.
         totalEl.style.color = color || (total >= 0 ? INCOME_COLOR : EXPENSE_COLOR);
         
         document.getElementById('list-modal-content').innerHTML = renderTransactionList(data);
         document.getElementById('list-modal-overlay').style.display = 'flex';
     }
 
-    /* === ΑΛΛΕΣ ΛΕΙΤΟΥΡΓΙΕΣ === */
     function setupEventListeners() {
         document.getElementById('btn-open-analysis').onclick = showAnalysis;
         document.getElementById('btn-close-analysis').onclick = () => document.getElementById('analysis-panel').classList.remove('active');
@@ -765,11 +753,15 @@
         alert("Η επεξεργασία θα ανοίξει εδώ.");
     }
     
+    // Εδώ είναι η αλλαγή για την ημερομηνία στο αρχείο εξαγωγής
     function exportData() {
+        const today = new Date();
+        const dateStr = today.toISOString().split('T')[0]; // Παίρνει τη μορφή YYYY-MM-DD
+        
         const blob = new Blob([JSON.stringify(db, null, 2)], { type: 'application/json' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = `pane_data.json`;
+        a.download = `pane_data_${dateStr}.json`; // Εδώ μπαίνει η ημερομηνία
         a.click();
     }
     </script>
