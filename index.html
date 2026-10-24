@@ -43,8 +43,7 @@
     }
 
     .main-header {
-        position: fixed; top: 0; left: 0; width: 100%;
-        height: 70px;
+        position: fixed; top: 0; left: 0; width: 100%; height: 70px;
         padding: 0 clamp(15px, 3vw, 40px);
         display: flex; align-items: center; justify-content: center;
         z-index: 100; background: rgba(5, 5, 12, 0.85);
@@ -53,8 +52,7 @@
 
     .page-title {
         font-family: 'Orbitron', sans-serif;
-        font-size: clamp(22px, 4vw, 32px);
-        font-weight: 900;
+        font-size: clamp(22px, 4vw, 32px); font-weight: 900;
         letter-spacing: clamp(4px, 1.5vw, 12px);
         text-transform: uppercase; text-align: center;
         display: flex; align-items: center; justify-content: center;
@@ -66,42 +64,27 @@
     .page-title .letter-e { color: #ff2a2a; text-shadow: 0 0 10px rgba(255, 42, 42, 0.6); }
 
     .main-layout {
-        display: grid;
-        grid-template-columns: 280px 1fr;
-        height: calc(100vh - 70px);
-        height: calc(100dvh - 70px);
-        margin-top: 70px;
-        padding: 20px; gap: 20px;
-        overflow: hidden;
+        display: grid; grid-template-columns: 280px 1fr;
+        height: calc(100vh - 70px); height: calc(100dvh - 70px);
+        margin-top: 70px; padding: 20px; gap: 20px; overflow: hidden;
     }
 
     .sidebar {
-        background: rgba(10, 10, 20, 0.85);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 12px; backdrop-filter: blur(20px);
-        padding: 20px;
-        display: flex; flex-direction: column;
-        position: relative; overflow: hidden;
-        min-height: 0;
+        background: rgba(10, 10, 20, 0.85); border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px; backdrop-filter: blur(20px); padding: 20px;
+        display: flex; flex-direction: column; position: relative; overflow: hidden; min-height: 0;
     }
 
     .sidebar-buttons-container {
-        display: flex; flex-direction: column; gap: 12px;
-        width: 100%; flex: 1;
-        overflow-y: auto; overflow-x: hidden;
-        padding-right: 2px;
-        min-height: 0;
+        display: flex; flex-direction: column; gap: 12px; width: 100%; flex: 1;
+        overflow-y: auto; overflow-x: hidden; padding-right: 2px; min-height: 0;
     }
 
     .sidebar-btn {
-        display: flex; align-items: center; gap: 15px;
-        padding: 14px 18px;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px;
-        color: #ffffff; font-family: 'Orbitron', sans-serif;
-        font-size: 12px; letter-spacing: 1.5px; cursor: pointer;
-        transition: all 0.3s ease; text-transform: uppercase;
-        width: 100%; text-align: left; flex-shrink: 0;
+        display: flex; align-items: center; gap: 15px; padding: 14px 18px;
+        background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px;
+        color: #ffffff; font-family: 'Orbitron', sans-serif; font-size: 12px; letter-spacing: 1.5px; cursor: pointer;
+        transition: all 0.3s ease; text-transform: uppercase; width: 100%; text-align: left; flex-shrink: 0;
     }
 
     .sidebar-btn i { font-size: 15px; width: 22px; text-align: center; flex-shrink: 0; }
@@ -115,48 +98,36 @@
     .months-btn { border-left: 3px solid var(--purple); color: var(--purple); margin-top: auto; }
 
     .sidebar-widget {
-        background: rgba(10, 10, 20, 0.9);
-        border: 1px solid rgba(0, 242, 255, 0.3);
-        border-radius: 8px; padding: 15px; margin-top: 20px;
-        position: relative; overflow: hidden; backdrop-filter: blur(10px);
-        transition: all 0.4s ease; flex-shrink: 0; z-index: 10;
+        background: rgba(10, 10, 20, 0.9); border: 1px solid rgba(0, 242, 255, 0.3);
+        border-radius: 8px; padding: 15px; margin-top: 20px; position: relative; overflow: hidden;
+        backdrop-filter: blur(10px); transition: all 0.4s ease; flex-shrink: 0; z-index: 10;
     }
 
     .widget-content { display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .cyber-amount {
-        font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 900;
-        color: var(--cyan); text-shadow: 0 0 8px rgba(0, 242, 255, 0.8);
-    }
+    .cyber-amount { font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 900; color: var(--cyan); text-shadow: 0 0 8px rgba(0, 242, 255, 0.8); }
     .cyber-amount.negative { color: var(--purple); text-shadow: 0 0 8px rgba(157, 0, 255, 0.8); }
 
-    .dashboard {
-        display: flex; flex-direction: column; gap: 20px;
-        height: 100%; overflow: hidden; min-width: 0;
-    }
+    .dashboard { display: flex; flex-direction: column; gap: 20px; height: 100%; overflow: hidden; min-width: 0; }
 
-    .dashboard-cards {
-        display: grid; grid-template-columns: repeat(4, 1fr);
-        gap: 15px; flex-shrink: 0;
-    }
+    .dashboard-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; flex-shrink: 0; }
 
     .stat-card {
-        background: rgba(10, 10, 20, 0.85);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 12px; padding: 15px;
-        position: relative; overflow: hidden; transition: all 0.3s ease;
+        background: rgba(10, 10, 20, 0.85); border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px; padding: 15px; position: relative; overflow: hidden; transition: all 0.3s ease;
         display: flex; align-items: center; gap: 10px; cursor: pointer;
     }
 
     .stat-card:hover { transform: translateY(-3px); border-color: rgba(255, 255, 255, 0.3); }
     .card-accent { position: absolute; top: 0; left: 0; width: 4px; height: 100%; }
-    .eurobank-accent { background: #ff2a2a; }
-    .eurobank-card .card-title, .eurobank-card .card-value { color: #ff2a2a; }
+    
+    .piraeus-accent { background: #ffcc00; }
+    .piraeus-card .card-title, .piraeus-card .card-value { color: #ffcc00; }
     .alpha-accent { background: #0055ff; }
     .alpha-card .card-title, .alpha-card .card-value { color: #0055ff; }
     .nbg-accent { background: var(--cyan); }
     .nbg-card .card-title, .nbg-card .card-value { color: var(--cyan); }
-    .piraeus-accent { background: #ffcc00; }
-    .piraeus-card .card-title, .piraeus-card .card-value { color: #ffcc00; }
+    .eurobank-accent { background: #ff2a2a; }
+    .eurobank-card .card-title, .eurobank-card .card-value { color: #ff2a2a; }
 
     .card-icon { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .card-icon svg { width: 22px; height: 22px; }
@@ -165,8 +136,7 @@
     .card-value { font-family: 'Orbitron', sans-serif; font-size: 15px; font-weight: 700; }
 
     .transactions-section {
-        background: rgba(10, 10, 20, 0.85);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(10, 10, 20, 0.85); border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 12px; overflow: hidden; flex: 1; display: flex; flex-direction: column; min-height: 0;
     }
 
@@ -174,11 +144,8 @@
     .transactions-header h3 { font-family: 'Orbitron', sans-serif; font-size: 13px; color: #ffffff; }
     .transactions-table { padding: 10px 15px; overflow-y: auto; flex: 1; }
     .transactions-table table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-
     .transactions-table th { text-align: left; padding: 10px 8px; font-family: 'Orbitron', sans-serif; font-size: 10px; color: rgba(255, 255, 255, 0.5); border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
     .transactions-table td { padding: 10px 8px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
-    /* Αφού φύγαν οι κουκκίδες, μοιράζουμε το πλάτος στις 4 στήλες */
     .transactions-table th:nth-child(1) { width: 20%; }
     .transactions-table th:nth-child(2) { width: 45%; }
     .transactions-table th:nth-child(3) { width: 22%; }
@@ -203,53 +170,31 @@
     #analysis-panel.active { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
     .analysis-header { padding: 15px 20px; border-bottom: 2px solid rgba(0, 242, 255, 0.3); display: flex; justify-content: space-between; align-items: center;}
     .analysis-grid-wrapper { flex: 1; overflow: auto; padding: 15px; }
+    .analysis-table { width: 100%; border-collapse: collapse; }
+    .analysis-table th, .analysis-table td { border: 1px solid rgba(255, 255, 255, 0.1); padding: 8px; text-align: center; font-size: 11px; }
+    .analysis-table th { background: rgba(0, 242, 255, 0.1); color: var(--cyan); }
+    .analysis-bullet { width: 14px; height: 14px; border-radius: 50%; display: inline-block; }
+
+    /* BANK MODAL (ΛΕΠΤΟΜΕΡΕΙΕΣ ΤΡΑΠΕΖΑΣ) */
+    #bank-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 10px; }
+    .bank-modal-content { background: rgba(10, 10, 20, 0.95); border: 2px solid rgba(0, 242, 255, 0.3); border-radius: 16px; width: 100%; max-width: 700px; max-height: 90dvh; display: flex; flex-direction: column; }
+    .bank-modal-header { display: flex; justify-content: space-between; padding: 15px 20px; border-bottom: 2px solid rgba(0, 242, 255, 0.2); }
+    .bank-modal-body { padding: 20px; overflow-y: auto; }
+    .bank-transaction-item { display: flex; justify-content: space-between; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px; margin-bottom: 8px; border-left: 3px solid; }
 
     /* ===========================================
-       RESPONSIVE - ΔΙΟΡΘΩΣΗ ΓΙΑ ΝΑ ΦΑΙΝΟΝΤΑΙ ΟΛΑ
+       RESPONSIVE
        =========================================== */
 
     @media (max-width: 1200px) {
-        .main-layout { 
-            grid-template-columns: 1fr; 
-            height: auto; 
-            overflow-y: auto; 
-            padding: 15px; 
-            gap: 15px;
-        }
-        .sidebar { 
-            height: auto; 
-            padding: 12px;
-            display: flex;
-            flex-direction: column; 
-            gap: 10px;
-            overflow: visible;
-        }
-        .sidebar-buttons-container {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: 8px;
-            flex: 1;
-            overflow: visible;
-        }
-        .sidebar-btn { 
-            width: auto; 
-            padding: 10px 14px; 
-            margin: 0;
-            flex: 1 1 auto;
-            justify-content: center;
-            font-size: 11px;
-        }
-        .sidebar-btn i { display: none; } /* Κρύβουμε το εικονίδιο για να χωράει το κείμενο */
+        .main-layout { grid-template-columns: 1fr; height: auto; overflow-y: auto; padding: 15px; gap: 15px; }
+        .sidebar { height: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px; overflow: visible; }
+        .sidebar-buttons-container { display: flex; flex-direction: row; flex-wrap: wrap; gap: 8px; flex: 1; overflow: visible; }
+        .sidebar-btn { width: auto; padding: 10px 14px; margin: 0; flex: 1 1 auto; justify-content: center; font-size: 11px; }
+        .sidebar-btn i { display: none; }
         .sidebar-btn span { text-align: center; }
-        
         .months-btn { margin-top: 0; }
-        .sidebar-widget { 
-            width: 100%; 
-            margin-top: 5px; 
-            padding: 10px; 
-        }
-        
+        .sidebar-widget { width: 100%; margin-top: 5px; padding: 10px; }
         .dashboard { height: auto; overflow: visible; }
         .transactions-section { max-height: none; min-height: 50vh; }
     }
@@ -261,48 +206,25 @@
     @media (max-width: 768px) {
         .main-header { height: 60px; }
         .main-layout { margin-top: 60px; padding: 10px; gap: 10px; }
-        
         .dashboard-cards { grid-template-columns: 1fr; gap: 8px; }
         .stat-card { padding: 12px; }
         
-        /* MOBILE TRANSACTIONS CARDS */
         .transactions-table thead { display: none; }
         .transactions-table table { table-layout: auto; }
         .transactions-table tbody { display: flex; flex-direction: column; gap: 10px; }
-        
         .transactions-table tr {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            grid-template-areas:
-                "date   amount"
-                "desc   desc"
-                "actions actions";
-            gap: 8px 10px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-left: 3px solid transparent;
-            border-radius: 10px;
-            padding: 14px;
+            display: grid; grid-template-columns: 1fr auto;
+            grid-template-areas: "date amount" "desc desc" "actions actions";
+            gap: 8px 10px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
+            border-left: 3px solid transparent; border-radius: 10px; padding: 14px;
         }
-        
         .transactions-table tr.income-row { border-left-color: var(--income-color); }
         .transactions-table tr.expense-row { border-left-color: var(--expense-color); }
-        
         .transactions-table td { padding: 0; border: none; display: block; white-space: normal; }
         .transactions-table td:nth-child(1) { grid-area: date; font-size: 11px; color: rgba(255,255,255,0.6) !important; }
         .transactions-table td:nth-child(2) { grid-area: desc; font-size: 14px; font-weight: 500; word-break: break-word; }
-        
-        .transactions-table td:nth-child(3) { 
-            grid-area: amount; 
-            font-size: 16px; 
-            text-align: right; 
-        }
-        
-        .transactions-table td:nth-child(4) { 
-            grid-area: actions; 
-            justify-self: end; 
-            margin-top: 4px;
-        }
+        .transactions-table td:nth-child(3) { grid-area: amount; font-size: 16px; text-align: right; }
+        .transactions-table td:nth-child(4) { grid-area: actions; justify-self: end; margin-top: 4px; }
         .transactions-table td:nth-child(4) .action-btn { width: 32px; height: 32px; font-size: 13px; }
     }
 
@@ -310,13 +232,10 @@
         .main-header { height: 55px; }
         .page-title { font-size: 20px; letter-spacing: 6px; }
         .main-layout { margin-top: 55px; padding: 8px; }
-        
         .sidebar { padding: 10px; }
         .sidebar-btn { padding: 10px 8px; font-size: 10px; }
-        
         .sidebar-widget { margin-top: 5px; padding: 8px; }
         .cyber-amount { font-size: 16px; }
-        
         .transactions-table { padding: 8px; }
         .transactions-table td:nth-child(3) { font-size: 15px; }
     }
@@ -384,11 +303,10 @@
                     <span>ΜΗΝΕΣ</span>
                 </button>
             </div>
-
             <div class="sidebar-widget" id="sidebar-widget">
                 <div class="widget-content">
                     <div class="widget-amount" id="total-amount">
-                        <span class="cyber-amount">000,00 €</span>
+                        <span class="cyber-amount">0,00 €</span>
                     </div>
                 </div>
             </div>
@@ -396,12 +314,13 @@
 
         <section class="dashboard">
             <div class="dashboard-cards">
-                <div class="stat-card eurobank-card" onclick="openBankModal('eurobank')">
-                    <div class="card-accent eurobank-accent"></div>
-                    <div class="card-icon"><svg><use href="#icon-eurobank"></use></svg></div>
+                <!-- ΣΕΙΡΑ: P-A-N-E (Πειραιώς, Alpha, NBG, Eurobank) -->
+                <div class="stat-card piraeus-card" onclick="openBankModal('piraeus')">
+                    <div class="card-accent piraeus-accent"></div>
+                    <div class="card-icon"><svg><use href="#icon-piraeus"></use></svg></div>
                     <div class="card-content">
-                        <h3 class="card-title">EUROBANK</h3>
-                        <p class="card-value" id="stat-eurobank">0.00 €</p>
+                        <h3 class="card-title">ΠΕΙΡΑΙΩΣ</h3>
+                        <p class="card-value" id="stat-piraeus">0.00 €</p>
                     </div>
                 </div>
                 <div class="stat-card alpha-card" onclick="openBankModal('alpha')">
@@ -420,12 +339,12 @@
                         <p class="card-value" id="stat-nbg">0.00 €</p>
                     </div>
                 </div>
-                <div class="stat-card piraeus-card" onclick="openBankModal('piraeus')">
-                    <div class="card-accent piraeus-accent"></div>
-                    <div class="card-icon"><svg><use href="#icon-piraeus"></use></svg></div>
+                <div class="stat-card eurobank-card" onclick="openBankModal('eurobank')">
+                    <div class="card-accent eurobank-accent"></div>
+                    <div class="card-icon"><svg><use href="#icon-eurobank"></use></svg></div>
                     <div class="card-content">
-                        <h3 class="card-title">ΠΕΙΡΑΙΩΣ</h3>
-                        <p class="card-value" id="stat-piraeus">0.00 €</p>
+                        <h3 class="card-title">EUROBANK</h3>
+                        <p class="card-value" id="stat-eurobank">0.00 €</p>
                     </div>
                 </div>
             </div>
@@ -452,17 +371,34 @@
         </section>
     </main>
 
-    <!-- MODALS -->
+    <!-- ANALYSIS PANEL -->
     <div id="analysis-panel">
         <div class="analysis-header">
             <h2 style="font-family: 'Orbitron'; color: var(--cyan);">ΑΝΑΛΥΣΗ</h2>
             <button id="analysis-close-btn" style="background: none; border: 1px solid #fff; color: #fff; padding: 5px 10px; border-radius: 5px; cursor: pointer;">ΚΛΕΙΣΙΜΟ</button>
         </div>
-        <div class="analysis-grid-wrapper" id="analysis-grid">
-            <p style="color: #fff; padding: 20px;">Εδώ εμφανίζεται η ανάλυση...</p>
+        <div class="analysis-grid-wrapper" id="analysis-grid"></div>
+    </div>
+
+    <!-- BANK MODAL -->
+    <div id="bank-modal-overlay">
+        <div class="bank-modal-content">
+            <div class="bank-modal-header">
+                <h3 id="bank-modal-title" style="color: var(--cyan); font-family: 'Orbitron';">ΤΡΑΠΕΖΑ</h3>
+                <button id="bank-modal-close-btn" style="background: none; border: none; color: #fff; cursor: pointer; font-size: 18px;"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="bank-modal-body">
+                <div style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-family: 'Orbitron'; font-size: 12px; color: rgba(255,255,255,0.7);">ΣΥΝΟΛΙΚΟ ΥΠΟΛΟΙΠΟ</span>
+                    <span id="bank-modal-total" style="font-family: 'Orbitron'; font-size: 24px; font-weight: 900;">0.00 €</span>
+                </div>
+                <h4 style="font-family: 'Orbitron'; font-size: 12px; margin-bottom: 15px; color: rgba(255,255,255,0.6);">ΤΕΛΕΥΤΑΙΕΣ ΣΥΝΑΛΛΑΓΕΣ</h4>
+                <div id="bank-modal-list"></div>
+            </div>
         </div>
     </div>
 
+    <!-- NEW TRANSACTION MODAL -->
     <div id="modal-overlay" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
@@ -470,7 +406,6 @@
                 <button id="modal-close-btn" style="background: none; border: none; color: #fff; cursor: pointer; font-size: 18px;"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body">
-                <input type="hidden" id="edit-id" value="">
                 <div class="form-group">
                     <label>ΗΜΕΡΟΜΗΝΙΑ</label>
                     <input type="date" id="in-date" class="modal-input">
@@ -485,10 +420,10 @@
                 <div class="form-group">
                     <label>ΤΡΑΠΕΖΑ</label>
                     <select id="in-cat" class="modal-input">
-                        <option value="eurobank">EUROBANK</option>
+                        <option value="piraeus">ΠΕΙΡΑΙΩΣ</option>
                         <option value="alpha">ALPHA BANK</option>
                         <option value="nbg">NBG</option>
-                        <option value="piraeus">ΠΕΙΡΑΙΩΣ</option>
+                        <option value="eurobank">EUROBANK</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -511,50 +446,22 @@
 
     <script>
     const MONTHS_GREEK = ['Ιανουάριος', 'Φεβρουάριος', 'Μάρτιος', 'Απρίλιος', 'Μάιος', 'Ιούνιος', 'Ιούλιος', 'Αύγουστος', 'Σεπτέμβριος', 'Οκτώβριος', 'Νοέμβριος', 'Δεκέμβριος'];
+    const MONTHS_SHORT = ['ΙΑΝ', 'ΦΕΒ', 'ΜΑΡ', 'ΑΠΡ', 'ΜΑΙ', 'ΙΟΥΝ', 'ΙΟΥΛ', 'ΑΥΓ', 'ΣΕΠ', 'ΟΚΤ', 'ΝΟΕ', 'ΔΕΚ'];
+
     const CATEGORY_COLORS = { 'eurobank': '#ff2a2a', 'alpha': '#0055ff', 'nbg': '#00f2ff', 'piraeus': '#ffcc00' };
+    const CATEGORY_NAMES = { 'eurobank': 'EUROBANK', 'alpha': 'ALPHA BANK', 'nbg': 'NBG', 'piraeus': 'ΠΕΙΡΑΙΩΣ' };
+    
+    const INCOME_COLOR = '#00ff88';
+    const EXPENSE_COLOR = '#ff4757';
 
     let db = JSON.parse(localStorage.getItem('isologismos_db')) || [];
+    let currentBankModalCategory = null;
 
     document.addEventListener('DOMContentLoaded', function() {
         const today = new Date();
         document.getElementById('in-date').value = today.toISOString().split('T')[0];
         updateDashboard();
-        
-        document.getElementById('sidebar-analysis-btn').onclick = () => {
-            document.getElementById('analysis-panel').classList.add('active');
-        };
-        document.getElementById('analysis-close-btn').onclick = () => {
-            document.getElementById('analysis-panel').classList.remove('active');
-        };
-        
-        document.getElementById('sidebar-new-transaction-btn').onclick = () => {
-            document.getElementById('modal-overlay').style.display = 'flex';
-        };
-        document.getElementById('modal-close-btn').onclick = closeModal;
-        document.getElementById('cancel-btn').onclick = closeModal;
-        document.getElementById('save-entry-btn').onclick = saveEntry;
-        document.getElementById('sidebar-export-btn').onclick = exportData;
-        document.getElementById('sidebar-import-btn').onclick = () => document.getElementById('fileInput').click();
-        
-        document.getElementById('fileInput').onchange = (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-                try {
-                    const imported = JSON.parse(ev.target.result);
-                    const existingIds = new Set(db.map(i => i.id));
-                    const newEntries = imported.filter(i => !existingIds.has(i.id));
-                    db.push(...newEntries);
-                    localStorage.setItem('isologismos_db', JSON.stringify(db));
-                    updateDashboard();
-                    alert(`${newEntries.length} νέες καταχωρήσεις!`);
-                } catch (err) { alert('Σφάλμα αρχείου'); }
-            };
-            reader.readAsText(file);
-        };
-        
-        document.getElementById('sidebar-months-btn').onclick = () => alert("Η προβολή μηνών θα ανοίξει εδώ.");
+        setupEventListeners();
     });
 
     function updateDashboard() {
@@ -564,10 +471,10 @@
             totals[entry.category] += amt;
         });
         
-        document.getElementById('stat-eurobank').textContent = `${totals.eurobank.toFixed(2)} €`;
+        document.getElementById('stat-piraeus').textContent = `${totals.piraeus.toFixed(2)} €`;
         document.getElementById('stat-alpha').textContent = `${totals.alpha.toFixed(2)} €`;
         document.getElementById('stat-nbg').textContent = `${totals.nbg.toFixed(2)} €`;
-        document.getElementById('stat-piraeus').textContent = `${totals.piraeus.toFixed(2)} €`;
+        document.getElementById('stat-eurobank').textContent = `${totals.eurobank.toFixed(2)} €`;
         
         const total = totals.eurobank + totals.alpha + totals.nbg + totals.piraeus;
         document.querySelector('.cyber-amount').textContent = `${total.toFixed(2)} €`;
@@ -591,7 +498,6 @@
             const bankColor = CATEGORY_COLORS[entry.category];
             const dateStr = new Date(entry.date).toLocaleDateString('el-GR', { day: '2-digit', month: '2-digit', year: '2-digit' });
 
-            // Αφαιρέθηκαν οι κουκκίδες. Το χρώμα του ποσού δείχνει την τράπεζα και το border του tr το έσοδο/έξοδο.
             html += `
                 <tr class="${isIncome ? 'income-row' : 'expense-row'}">
                     <td>${dateStr}</td>
@@ -609,6 +515,131 @@
             `;
         });
         container.innerHTML = html;
+    }
+
+    /* === ΛΕΙΤΟΥΡΓΙΑ ΑΝΑΛΥΣΗΣ === */
+    function openAnalysis() {
+        document.getElementById('analysis-panel').classList.add('active');
+        const grid = document.getElementById('analysis-grid');
+        
+        let html = `<table class="analysis-table"><thead><tr><th>ΜΗΝΑΣ</th>
+            <th>ΠΕΙΡΑΙΩΣ</th><th>ALPHA</th><th>NBG</th><th>EUROBANK</th>
+        </tr></thead><tbody>`;
+
+        const currentYear = new Date().getFullYear();
+        
+        for (let m = 0; m < 12; m++) {
+            html += `<tr><td style="color: #9d00ff; font-weight: bold;">${MONTHS_SHORT[m]}</td>`;
+            ['piraeus', 'alpha', 'nbg', 'eurobank'].forEach(cat => {
+                const count = db.filter(e => {
+                    const d = new Date(e.date);
+                    return d.getFullYear() === currentYear && d.getMonth() === m && e.category === cat;
+                }).length;
+                
+                const bulletColor = CATEGORY_COLORS[cat];
+                html += `<td>${count > 0 ? `<div class="analysis-bullet" style="background: ${bulletColor}; box-shadow: 0 0 8px ${bulletColor};"></div><span style="font-size: 9px; display: block; color: #aaa;">${count}</span>` : '-'}</td>`;
+            });
+            html += `</tr>`;
+        }
+        html += `</tbody></table>`;
+        grid.innerHTML = html;
+    }
+
+    /* === ΛΕΙΤΟΥΡΓΙΑ ΤΡΑΠΕΖΑΣ (MODAL) === */
+    function openBankModal(category) {
+        currentBankModalCategory = category;
+        const bankName = CATEGORY_NAMES[category];
+        const bankColor = CATEGORY_COLORS[category];
+        
+        document.getElementById('bank-modal-title').textContent = bankName;
+        document.getElementById('bank-modal-title').style.color = bankColor;
+        document.getElementById('bank-modal-overlay').style.display = 'flex';
+        
+        // Υπολογισμός συνολικού υπολοίπου τράπεζας
+        let total = 0;
+        const bankData = db.filter(e => e.category === category);
+        bankData.forEach(e => {
+            total += parseFloat(e.amount) * (e.type === 'income' ? 1 : -1);
+        });
+        
+        const totalEl = document.getElementById('bank-modal-total');
+        totalEl.textContent = `${total.toFixed(2)} €`;
+        totalEl.style.color = bankColor;
+        totalEl.style.textShadow = `0 0 10px ${bankColor}66`;
+
+        // Λίστα τελευταίων 5 συναλλαγών
+        const last5 = [...bankData].sort((a, b) => b.id - a.id).slice(0, 5);
+        const listEl = document.getElementById('bank-modal-list');
+        
+        if (last5.length === 0) {
+            listEl.innerHTML = `<p style="color: #666; text-align: center;">Δεν υπάρχουν συναλλαγές</p>`;
+        } else {
+            let listHtml = '';
+            last5.forEach(e => {
+                const isIncome = e.type === 'income';
+                const sign = isIncome ? '+' : '-';
+                const dateStr = new Date(e.date).toLocaleDateString('el-GR');
+                
+                listHtml += `
+                    <div class="bank-transaction-item" style="border-left-color: ${isIncome ? INCOME_COLOR : EXPENSE_COLOR};">
+                        <div>
+                            <div style="font-size: 14px;">${e.desc || '-'}</div>
+                            <div style="font-size: 10px; color: #888;">${dateStr}</div>
+                        </div>
+                        <div style="font-family: 'Orbitron'; font-weight: bold; color: ${isIncome ? INCOME_COLOR : EXPENSE_COLOR};">
+                            ${sign}${parseFloat(e.amount).toFixed(2)} €
+                        </div>
+                    </div>
+                `;
+            });
+            listEl.innerHTML = listHtml;
+        }
+    }
+
+    function closeBankModal() {
+        document.getElementById('bank-modal-overlay').style.display = 'none';
+        currentBankModalCategory = null;
+    }
+
+    /* === ΑΛΛΕΣ ΛΕΙΤΟΥΡΓΙΕΣ === */
+    function setupEventListeners() {
+        document.getElementById('sidebar-analysis-btn').onclick = openAnalysis;
+        document.getElementById('analysis-close-btn').onclick = () => document.getElementById('analysis-panel').classList.remove('active');
+        
+        document.getElementById('sidebar-new-transaction-btn').onclick = () => {
+            document.getElementById('modal-overlay').style.display = 'flex';
+            document.getElementById('in-amount').value = '';
+            document.getElementById('in-desc').value = '';
+            document.getElementById('in-cat').value = 'piraeus';
+        };
+        
+        document.getElementById('bank-modal-close-btn').onclick = closeBankModal;
+        document.getElementById('modal-close-btn').onclick = closeModal;
+        document.getElementById('cancel-btn').onclick = closeModal;
+        document.getElementById('save-entry-btn').onclick = saveEntry;
+        
+        document.getElementById('sidebar-export-btn').onclick = exportData;
+        document.getElementById('sidebar-import-btn').onclick = () => document.getElementById('fileInput').click();
+        
+        document.getElementById('fileInput').onchange = (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                try {
+                    const imported = JSON.parse(ev.target.result);
+                    const existingIds = new Set(db.map(i => i.id));
+                    const newEntries = imported.filter(i => !existingIds.has(i.id));
+                    db.push(...newEntries);
+                    localStorage.setItem('isologismos_db', JSON.stringify(db));
+                    updateDashboard();
+                    alert(`${newEntries.length} νέες καταχωρήσεις!`);
+                } catch (err) { alert('Σφάλμα αρχείου'); }
+            };
+            reader.readAsText(file);
+        };
+        
+        document.getElementById('sidebar-months-btn').onclick = () => alert("Η προβολή μηνών θα ανοίξει εδώ.");
     }
 
     function closeModal() {
@@ -642,10 +673,6 @@
     
     function editTransaction(id) {
         alert("Η επεξεργασία θα ανοίξει εδώ.");
-    }
-    
-    function openBankModal(cat) {
-        alert(`Άνοιγμα λεπτομερειών για ${cat}`);
     }
     
     function exportData() {
