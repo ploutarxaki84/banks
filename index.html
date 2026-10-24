@@ -1,0 +1,1878 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ΙΣΟΛΟΓΙΣΜΟΣ</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+    /* ===========================================
+       ΙΣΟΛΟΓΙΣΜΟΣ - COMPLETE CSS
+       =========================================== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+        background-color: #050508;
+        color: #ffffff;
+        font-family: 'JetBrains Mono', monospace;
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+    }
+
+    /* BACKGROUND */
+    .grid-bg {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+        background-image: 
+            radial-gradient(circle at 20% 80%, rgba(157, 0, 255, 0.03) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(0, 242, 255, 0.03) 0%, transparent 50%),
+            linear-gradient(rgba(157, 0, 255, 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(157, 0, 255, 0.05) 1px, transparent 1px);
+        background-size: 100% 100%, 100% 100%, 60px 60px, 60px 60px;
+    }
+
+    /* HEADER */
+    .main-header {
+        position: fixed; top: 0; left: 0; width: 100%; height: 80px;
+        padding: 0 40px; display: flex; align-items: center; justify-content: center;
+        z-index: 100; background: rgba(5, 5, 12, 0.8);
+        backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .page-title {
+        font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: 700;
+        letter-spacing: 8px; background: linear-gradient(to right, #00f2ff, #9d00ff);
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        text-shadow: 0 0 15px rgba(0, 242, 255, 0.5);
+        text-transform: uppercase; text-align: center;
+    }
+
+    /* MAIN LAYOUT */
+    .main-layout {
+        display: grid; grid-template-columns: 280px 1fr;
+        height: calc(100vh - 80px); margin-top: 80px;
+        padding: 20px; gap: 20px; overflow: hidden;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+        background: rgba(10, 10, 20, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px; backdrop-filter: blur(20px);
+        padding: 20px; height: calc(100vh - 120px);
+        display: flex; flex-direction: column; position: relative; overflow: hidden;
+    }
+
+    .sidebar-buttons-container {
+        display: flex; flex-direction: column; gap: 12px;
+        width: 100%; flex: 1;
+    }
+
+    .sidebar-btn {
+        display: flex; align-items: center; gap: 15px;
+        padding: 16px 20px; background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px;
+        color: #ffffff; font-family: 'Orbitron', sans-serif;
+        font-size: 13px; letter-spacing: 2px; cursor: pointer;
+        transition: all 0.3s ease; text-transform: uppercase;
+        width: 100%; text-align: left; position: relative; overflow: hidden;
+    }
+
+    .sidebar-btn i { font-size: 16px; width: 24px; text-align: center; }
+    .sidebar-btn span { flex: 1; }
+    .sidebar-btn:hover { transform: translateX(5px); box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3); }
+
+    .analysis-btn { border-left: 3px solid #00f2ff; color: #00f2ff; }
+    .analysis-btn:hover { background: rgba(0, 242, 255, 0.1); box-shadow: 0 5px 15px rgba(0, 242, 255, 0.3); }
+
+    .new-transaction-btn { border-left: 3px solid #9d00ff; color: #9d00ff; }
+    .new-transaction-btn:hover { background: rgba(157, 0, 255, 0.1); box-shadow: 0 5px 15px rgba(157, 0, 255, 0.3); }
+
+    .import-btn, .export-btn { border-left: 3px solid #ffffff; color: #ffffff; }
+    .import-btn:hover, .export-btn:hover { background: rgba(255, 255, 255, 0.1); box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3); }
+
+    .months-btn { border-left: 3px solid #00f2ff; color: #00f2ff; margin-top: auto; }
+    .months-btn:hover { background: rgba(0, 242, 255, 0.1); box-shadow: 0 5px 15px rgba(0, 242, 255, 0.3); }
+
+    /* SIDEBAR WIDGET */
+    .sidebar-widget {
+        background: rgba(10, 10, 20, 0.9);
+        border: 1px solid rgba(0, 242, 255, 0.3);
+        border-radius: 8px; padding: 15px; margin-top: 20px;
+        position: relative; overflow: hidden; backdrop-filter: blur(10px);
+        transition: all 0.4s ease; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .sidebar-widget:hover {
+        border-color: rgba(0, 242, 255, 0.6);
+        box-shadow: 0 5px 25px rgba(0, 242, 255, 0.2);
+        transform: translateY(-2px);
+    }
+
+    .widget-content {
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center; position: relative; z-index: 1;
+    }
+
+    .widget-amount {
+        font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 700;
+        color: #ffffff; text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+        display: flex; justify-content: center; align-items: baseline;
+        letter-spacing: 0.5px; text-align: center; width: 100%;
+    }
+
+    .cyber-amount {
+        font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 900;
+        color: #00f2ff;
+        text-shadow: 0 0 8px rgba(0, 242, 255, 0.8), 0 0 15px rgba(0, 242, 255, 0.4);
+        letter-spacing: 1px;
+    }
+
+    .cyber-amount.negative {
+        color: #9d00ff;
+        text-shadow: 0 0 8px rgba(157, 0, 255, 0.8), 0 0 15px rgba(157, 0, 255, 0.4);
+    }
+
+    /* DASHBOARD */
+    .dashboard {
+        display: flex; flex-direction: column; gap: 20px;
+        height: 100%; overflow: hidden;
+    }
+
+    .dashboard-cards {
+        display: grid; grid-template-columns: repeat(3, 1fr);
+        gap: 20px; flex-shrink: 0;
+    }
+
+    .stat-card {
+        background: rgba(10, 10, 20, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px; padding: 20px; position: relative;
+        overflow: hidden; backdrop-filter: blur(10px); transition: all 0.3s ease;
+    }
+
+    .stat-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); }
+
+    .card-accent { position: absolute; top: 0; left: 0; width: 4px; height: 100%; }
+    .cash-accent { background: #9d00ff; }
+    .cash-card .card-title, .cash-card .card-value { color: #9d00ff; }
+    .salary-accent { background: #00f2ff; }
+    .salary-card .card-title, .salary-card .card-value { color: #00f2ff; }
+    .card-accent-style { background: #ffffff; }
+    .card-card .card-title, .card-card .card-value { color: #ffffff; }
+
+    .card-content { padding-left: 15px; }
+
+    .card-title {
+        font-family: 'Orbitron', sans-serif; font-size: 14px;
+        color: rgba(255, 255, 255, 0.9); letter-spacing: 3px;
+        margin-bottom: 15px; text-transform: uppercase;
+    }
+
+    .card-value { font-family: 'Orbitron', sans-serif; font-size: 28px; font-weight: 700; }
+
+    /* TRANSACTIONS */
+    .transactions-section {
+        background: rgba(10, 10, 20, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px; backdrop-filter: blur(10px);
+        overflow: hidden; flex: 1; display: flex; flex-direction: column; min-height: 0;
+    }
+
+    .transactions-header {
+        display: flex; align-items: center; padding: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1); flex-shrink: 0;
+    }
+
+    .transactions-header h3 {
+        font-family: 'Orbitron', sans-serif; font-size: 14px;
+        letter-spacing: 3px; color: #ffffff; text-transform: uppercase;
+    }
+
+    .transactions-count {
+        font-family: 'JetBrains Mono', monospace; font-size: 11px;
+        color: rgba(255, 255, 255, 0.6); margin-left: 10px;
+    }
+
+    .transactions-table { padding: 20px; overflow-y: auto; flex: 1; }
+    .transactions-table table { width: 100%; border-collapse: collapse; }
+
+    .transactions-table th {
+        text-align: left; padding: 12px 16px;
+        font-family: 'Orbitron', sans-serif; font-size: 11px;
+        color: rgba(255, 255, 255, 0.5); letter-spacing: 2px;
+        text-transform: uppercase; border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .transactions-table td {
+        padding: 12px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        font-size: 13px; font-family: 'JetBrains Mono', monospace;
+    }
+
+    .transactions-table td:first-child { color: #ffffff !important; }
+    .category-cash { color: #9d00ff; }
+    .category-salary { color: #00f2ff; }
+    .category-card { color: #ffffff; }
+
+    .action-buttons { display: flex; gap: 8px; justify-content: flex-end; }
+
+    .action-btn {
+        width: 30px; height: 30px; border-radius: 6px; border: none;
+        cursor: pointer; font-size: 12px;
+        display: flex; align-items: center; justify-content: center;
+        transition: all 0.2s ease;
+    }
+
+    .edit-btn { background: rgba(0, 242, 255, 0.1); color: #00f2ff; border: 1px solid rgba(0, 242, 255, 0.3); }
+    .edit-btn:hover { background: rgba(0, 242, 255, 0.2); transform: translateY(-2px); }
+
+    .delete-btn { background: rgba(255, 71, 87, 0.1); color: #ff4757; border: 1px solid rgba(255, 71, 87, 0.3); }
+    .delete-btn:hover { background: rgba(255, 71, 87, 0.2); transform: translateY(-2px); }
+
+    .income-row td:nth-child(4) { color: #00f2ff; }
+    .expense-row td:nth-child(4) { color: #9d00ff; }
+    .transactions-table tr:hover { background: rgba(255, 255, 255, 0.03); }
+    .transactions-table .empty-row td {
+        text-align: center; padding: 40px;
+        color: rgba(255, 255, 255, 0.3); font-style: italic;
+    }
+
+    /* ANALYSIS PANEL */
+    #analysis-panel {
+        position: fixed; top: 50%; left: 50%;
+        transform: translate(-50%, -50%) scale(0.95);
+        width: 90%; max-width: 1400px; height: 85vh;
+        background: rgba(10, 10, 20, 0.95);
+        border: 2px solid rgba(0, 242, 255, 0.3);
+        border-radius: 12px; z-index: 1000;
+        opacity: 0; visibility: hidden; transition: all 0.3s ease;
+        box-shadow: 0 0 100px rgba(0, 0, 0, 0.5); overflow: hidden;
+    }
+
+    #analysis-panel.active {
+        opacity: 1; visibility: visible;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    .analysis-header {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 25px 40px; border-bottom: 2px solid rgba(0, 242, 255, 0.3);
+        background: rgba(0, 242, 255, 0.05);
+    }
+
+    .analysis-title-container { display: flex; flex-direction: column; gap: 8px; }
+
+    #analysis-title {
+        font-family: 'Orbitron', sans-serif; font-size: 22px;
+        letter-spacing: 6px; color: #00f2ff; text-transform: uppercase;
+    }
+
+    #analysis-subtitle {
+        font-family: 'Orbitron', sans-serif; font-size: 12px;
+        letter-spacing: 3px; color: rgba(0, 242, 255, 0.7); text-transform: uppercase;
+    }
+
+    .analysis-close-btn {
+        background: transparent; border: 2px solid rgba(255, 255, 255, 0.3);
+        color: rgba(255, 255, 255, 0.8); padding: 10px 20px;
+        border-radius: 8px; font-family: 'Orbitron', sans-serif;
+        font-size: 12px; letter-spacing: 3px; cursor: pointer;
+        transition: all 0.3s ease; display: flex; align-items: center;
+        gap: 10px; text-transform: uppercase;
+    }
+
+    .analysis-close-btn:hover {
+        background: rgba(255, 0, 0, 0.15); border-color: #ff4757;
+        color: #ff4757; transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(255, 71, 87, 0.3);
+    }
+
+    .analysis-content { height: calc(100% - 90px); overflow-y: auto; padding: 30px; }
+
+    .analysis-grid-excel {
+        display: grid; grid-template-columns: repeat(13, 1fr);
+        grid-template-rows: auto; gap: 1px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 4px; overflow: hidden; margin-bottom: 30px;
+    }
+
+    .grid-header-month {
+        background: rgba(0, 242, 255, 0.1); padding: 12px 8px;
+        text-align: center; border-right: 1px solid rgba(255, 255, 255, 0.2);
+        font-family: 'Orbitron', sans-serif; font-size: 11px;
+        letter-spacing: 1px; color: #00f2ff; text-transform: uppercase;
+    }
+
+    .grid-header-category {
+        background: rgba(157, 0, 255, 0.1); padding: 12px 8px;
+        text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        font-family: 'Orbitron', sans-serif; font-size: 11px;
+        letter-spacing: 1px; color: #9d00ff; text-transform: uppercase;
+    }
+
+    .grid-cell-excel {
+        background: rgba(255, 255, 255, 0.03); padding: 15px 10px;
+        text-align: center; border-right: 1px solid rgba(255, 255, 255, 0.1);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        cursor: pointer; transition: all 0.3s ease;
+        min-height: 80px; display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+    }
+
+    .grid-cell-excel:hover {
+        background: rgba(255, 255, 255, 0.08);
+        transform: scale(1.02); box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .cell-bullet-container { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .cell-bullet { width: 20px; height: 20px; border-radius: 50%; position: relative; }
+
+    .bullet-cash { background: #9d00ff; box-shadow: 0 0 15px rgba(157, 0, 255, 0.7); }
+    .bullet-salary { background: #00f2ff; box-shadow: 0 0 15px rgba(0, 242, 255, 0.7); }
+    .bullet-card { background: #ffffff; box-shadow: 0 0 15px rgba(255, 255, 255, 0.7); }
+
+    .cell-count {
+        font-family: 'JetBrains Mono', monospace; font-size: 10px;
+        color: rgba(255, 255, 255, 0.7); margin-top: 5px;
+    }
+
+    .grid-placeholder {
+        grid-column: 1 / -1; display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        padding: 60px; color: rgba(255, 255, 255, 0.3); text-align: center;
+    }
+
+    .grid-placeholder i { font-size: 48px; margin-bottom: 20px; }
+    .grid-placeholder p { font-family: 'Orbitron', sans-serif; font-size: 14px; letter-spacing: 2px; }
+
+    .analysis-total-container {
+        margin-top: 30px; padding-top: 20px;
+        border-top: 2px solid rgba(0, 242, 255, 0.3); text-align: center;
+    }
+
+    .analysis-total {
+        display: inline-flex; align-items: baseline; gap: 15px;
+        background: rgba(0, 242, 255, 0.05); padding: 15px 30px;
+        border-radius: 10px; border: 1px solid rgba(0, 242, 255, 0.2);
+    }
+
+    .total-label {
+        font-family: 'Orbitron', sans-serif; font-size: 14px;
+        letter-spacing: 3px; color: rgba(255, 255, 255, 0.8); text-transform: uppercase;
+    }
+
+    .total-amount { font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: 700; color: #00f2ff; }
+
+    .cyber-amount-holo {
+        font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: 900;
+        color: #00f2ff;
+        text-shadow: 0 0 10px rgba(0, 242, 255, 0.8), 0 0 20px rgba(0, 242, 255, 0.6), 0 0 30px rgba(0, 242, 255, 0.4);
+        letter-spacing: 2px;
+    }
+
+    /* MODALS */
+    #modal-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(15px);
+        display: none; align-items: center; justify-content: center; z-index: 2000;
+    }
+
+    .modal-content {
+        background: rgba(10, 10, 20, 0.9);
+        border: 2px solid rgba(0, 242, 255, 0.3);
+        border-radius: 16px; width: 90%; max-width: 550px;
+        backdrop-filter: blur(30px);
+        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7), 0 0 60px rgba(0, 242, 255, 0.15);
+        overflow: hidden;
+    }
+
+    .modal-header {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 25px 35px; border-bottom: 2px solid rgba(0, 242, 255, 0.2);
+        background: linear-gradient(90deg, rgba(0, 242, 255, 0.1) 0%, rgba(157, 0, 255, 0.1) 100%);
+    }
+
+    .modal-header h3 {
+        font-family: 'Orbitron', sans-serif; font-size: 18px;
+        letter-spacing: 4px; color: #00f2ff; text-transform: uppercase;
+    }
+
+    .modal-close {
+        background: transparent; border: none; color: rgba(255, 255, 255, 0.6);
+        font-size: 20px; cursor: pointer; transition: all 0.3s ease;
+        width: 35px; height: 35px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+    }
+
+    .modal-close:hover { background: rgba(255, 255, 255, 0.15); color: #ffffff; transform: rotate(90deg); }
+
+    .modal-body { padding: 35px; }
+
+    .form-group { margin-bottom: 25px; }
+
+    .form-group label {
+        display: block; margin-bottom: 10px;
+        font-family: 'Orbitron', sans-serif; font-size: 12px;
+        color: rgba(255, 255, 255, 0.8); letter-spacing: 3px; text-transform: uppercase;
+    }
+
+    .modal-input, .modal-select {
+        width: 100%; padding: 14px 18px;
+        background: rgba(5, 5, 12, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 8px; color: #ffffff;
+        font-family: 'Orbitron', sans-serif; font-size: 14px;
+        transition: all 0.3s ease;
+    }
+
+    .modal-select {
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300f2ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat; background-position: right 15px center;
+        background-size: 16px; padding-right: 45px;
+    }
+
+    .modal-input:focus, .modal-select:focus {
+        outline: none; border-color: #00f2ff;
+        box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+        background: rgba(0, 242, 255, 0.05);
+    }
+
+    .modal-select option { background: rgba(10, 10, 20, 0.95); color: #ffffff; padding: 10px; }
+
+    .modal-actions { display: flex; gap: 15px; margin-top: 40px; flex-wrap: wrap; }
+
+    .btn-primary, .btn-secondary, .btn-danger {
+        flex: 1; padding: 16px; border-radius: 8px;
+        font-family: 'Orbitron', sans-serif; font-size: 13px;
+        letter-spacing: 3px; cursor: pointer; transition: all 0.3s ease;
+        border: none; display: flex; align-items: center; justify-content: center;
+        gap: 12px; text-transform: uppercase; min-width: 120px;
+    }
+
+    .btn-primary { background: linear-gradient(135deg, #00f2ff, #9d00ff); color: #050508; font-weight: bold; }
+    .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(0, 242, 255, 0.4), 0 0 30px rgba(157, 0, 255, 0.3);
+    }
+
+    .btn-secondary {
+        background: rgba(255, 255, 255, 0.05);
+        color: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        font-family: 'JetBrains Mono', monospace;
+    }
+
+    .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.12); color: #ffffff;
+        border-color: rgba(255, 255, 255, 0.4); transform: translateY(-2px);
+    }
+
+    .btn-danger { background: linear-gradient(135deg, #ff4757, #ff3838); color: white; font-weight: bold; }
+    .btn-danger:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(255, 71, 87, 0.4); }
+
+    /* DETAILS MODAL */
+    .modal-overlay-details {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(10px);
+        display: none; align-items: center; justify-content: center; z-index: 2001;
+    }
+
+    .modal-content-details {
+        background: rgba(10, 10, 20, 0.95);
+        border: 2px solid rgba(0, 242, 255, 0.3);
+        border-radius: 16px; width: 90%; max-width: 800px;
+        max-height: 80vh; overflow: hidden;
+        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7), 0 0 60px rgba(0, 242, 255, 0.2);
+    }
+
+    .modal-header-details {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 25px 35px; border-bottom: 2px solid rgba(0, 242, 255, 0.2);
+        background: rgba(0, 242, 255, 0.1);
+    }
+
+    .modal-header-details h3 {
+        font-family: 'Orbitron', sans-serif; font-size: 18px;
+        letter-spacing: 4px; color: #00f2ff; text-transform: uppercase;
+    }
+
+    .modal-header-details > div { display: flex; align-items: center; gap: 10px; }
+
+    .header-tool-btn {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: rgba(255, 255, 255, 0.8);
+        width: 35px; height: 35px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer; transition: all 0.3s ease; font-size: 14px;
+    }
+
+    #delete-transaction-btn {
+        background: rgba(255, 71, 87, 0.1);
+        border-color: rgba(255, 71, 87, 0.3); color: #ff4757;
+    }
+
+    #delete-transaction-btn:hover {
+        background: rgba(255, 71, 87, 0.2);
+        border-color: #ff4757; box-shadow: 0 5px 15px rgba(255, 71, 87, 0.3);
+    }
+
+    .modal-close-details {
+        background: transparent; border: none; color: rgba(255, 255, 255, 0.6);
+        font-size: 20px; cursor: pointer; width: 35px; height: 35px;
+        border-radius: 50%; display: flex; align-items: center;
+        justify-content: center; transition: all 0.3s ease;
+    }
+
+    .modal-close-details:hover {
+        background: rgba(255, 255, 255, 0.15);
+        color: #ffffff; transform: rotate(90deg);
+    }
+
+    .modal-body-details { padding: 0; }
+
+    .details-content { padding: 30px; max-height: 60vh; overflow-y: auto; }
+
+    .details-table { width: 100%; border-collapse: collapse; }
+
+    .details-table th {
+        text-align: left; padding: 15px 20px;
+        font-family: 'Orbitron', sans-serif; font-size: 12px;
+        color: #00f2ff; letter-spacing: 2px; text-transform: uppercase;
+        border-bottom: 1px solid rgba(0, 242, 255, 0.2);
+        background: rgba(0, 242, 255, 0.05);
+    }
+
+    .details-table td {
+        padding: 12px 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        font-size: 13px; font-family: 'JetBrains Mono', monospace;
+    }
+
+    .details-table td:first-child { color: #ffffff !important; }
+    .details-table .income-row td:nth-child(4) { color: #00f2ff; }
+    .details-table .expense-row td:nth-child(4) { color: #9d00ff; }
+
+    /* MONTH MODAL */
+    .modal-overlay-month {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px);
+        display: none; align-items: center; justify-content: center; z-index: 2002;
+    }
+
+    .modal-content-month {
+        background: rgba(5, 10, 20, 0.95);
+        border: 2px solid rgba(0, 242, 255, 0.4);
+        border-radius: 16px; width: 90%; max-width: 700px;
+        max-height: 80vh; overflow: hidden;
+        box-shadow: 0 0 100px rgba(0, 242, 255, 0.3); position: relative;
+    }
+
+    .modal-header-month {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 25px 35px; border-bottom: 2px solid rgba(0, 242, 255, 0.3);
+        background: rgba(0, 242, 255, 0.1); position: relative; z-index: 2;
+    }
+
+    .modal-header-month h3 {
+        font-family: 'Orbitron', sans-serif; font-size: 20px;
+        letter-spacing: 4px; color: #00f2ff; text-transform: uppercase;
+    }
+
+    .modal-header-month > div { display: flex; align-items: center; gap: 10px; }
+
+    .modal-close-month {
+        background: transparent; border: none; color: rgba(255, 255, 255, 0.6);
+        font-size: 20px; cursor: pointer; width: 35px; height: 35px;
+        border-radius: 50%; display: flex; align-items: center;
+        justify-content: center; transition: all 0.3s ease;
+    }
+
+    .modal-close-month:hover {
+        background: rgba(255, 255, 255, 0.15);
+        color: #ffffff; transform: rotate(90deg);
+    }
+
+    .modal-body-month { padding: 0; }
+    .month-content { padding: 30px; max-height: 60vh; overflow-y: auto; }
+
+    .month-transactions-list { display: flex; flex-direction: column; gap: 10px; }
+
+    .month-transaction-item {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 15px 20px; background: rgba(255, 255, 255, 0.03);
+        border-radius: 8px; border-left: 3px solid; transition: all 0.3s ease;
+    }
+
+    .month-transaction-item:hover { background: rgba(255, 255, 255, 0.06); transform: translateX(5px); }
+    .month-transaction-income { border-left-color: #00f2ff; }
+    .month-transaction-expense { border-left-color: #9d00ff; }
+
+    .month-transaction-desc { flex: 1; font-family: 'JetBrains Mono', monospace; font-size: 14px; }
+
+    .month-transaction-category {
+        font-family: 'Orbitron', sans-serif; font-size: 11px;
+        letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase;
+    }
+
+    .category-cash-month { color: #9d00ff; }
+    .category-salary-month { color: #00f2ff; }
+    .category-card-month { color: #ffffff; }
+
+    .month-transaction-amount {
+        font-family: 'Orbitron', sans-serif; font-weight: bold;
+        margin-left: 20px; min-width: 100px; text-align: right;
+    }
+
+    .income-amount-month { color: #00f2ff; }
+    .expense-amount-month { color: #9d00ff; }
+
+    /* MONTHS SELECTOR */
+    .modal-overlay-months-selector {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(15px);
+        display: none; align-items: center; justify-content: center; z-index: 2003;
+    }
+
+    .modal-content-months-selector {
+        background: rgba(10, 10, 20, 0.95);
+        border: 2px solid rgba(0, 242, 255, 0.3);
+        border-radius: 16px; width: 90%; max-width: 500px;
+        backdrop-filter: blur(30px);
+        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7), 0 0 60px rgba(0, 242, 255, 0.2);
+        overflow: hidden;
+    }
+
+    .modal-header-months-selector {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 25px 35px; border-bottom: 2px solid rgba(0, 242, 255, 0.2);
+        background: rgba(0, 242, 255, 0.1);
+    }
+
+    .modal-header-months-selector h3 {
+        font-family: 'Orbitron', sans-serif; font-size: 18px;
+        letter-spacing: 4px; color: #00f2ff; text-transform: uppercase;
+    }
+
+    .modal-close-months-selector {
+        background: transparent; border: none; color: rgba(255, 255, 255, 0.6);
+        font-size: 20px; cursor: pointer; transition: all 0.3s ease;
+        width: 35px; height: 35px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+    }
+
+    .modal-close-months-selector:hover {
+        background: rgba(255, 255, 255, 0.15);
+        color: #ffffff; transform: rotate(90deg);
+    }
+
+    .modal-body-months-selector { padding: 35px; }
+    .months-selector-content { display: flex; flex-direction: column; gap: 12px; }
+
+    .month-selector-btn {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 16px 20px; background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px;
+        color: #ffffff; font-family: 'Orbitron', sans-serif;
+        font-size: 14px; letter-spacing: 2px; cursor: pointer;
+        transition: all 0.3s ease; text-transform: uppercase;
+        border-left: 3px solid;
+    }
+
+    .month-selector-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateX(5px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .month-selector-name { flex: 1; }
+
+    .month-selector-total {
+        font-family: 'JetBrains Mono', monospace; font-size: 13px;
+        font-weight: bold; min-width: 80px; text-align: right;
+    }
+
+    .month-selector-placeholder {
+        text-align: center; padding: 40px 20px;
+        color: rgba(255, 255, 255, 0.3);
+        font-family: 'Orbitron', sans-serif; font-size: 14px; letter-spacing: 2px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1200px) {
+        .main-layout { grid-template-columns: 1fr; height: auto; overflow-y: auto; }
+        .sidebar { height: auto; max-height: 600px; margin-bottom: 20px; }
+        .dashboard-cards { grid-template-columns: repeat(2, 1fr); }
+        .analysis-grid-excel { grid-template-columns: repeat(7, 1fr); overflow-x: auto; }
+    }
+
+    @media (max-width: 768px) {
+        .main-header { padding: 0 20px; height: 70px; }
+        .page-title { font-size: 18px; letter-spacing: 4px; }
+        .main-layout { grid-template-columns: 1fr; height: auto; margin-top: 70px; overflow-y: auto; padding: 15px; }
+        .sidebar { height: auto; max-height: 500px; margin-bottom: 0; }
+        .sidebar-widget { margin-top: 15px; padding: 12px; }
+        .widget-amount, .cyber-amount { font-size: 18px; }
+        .dashboard-cards { grid-template-columns: 1fr; }
+        #analysis-panel { width: 95%; height: 90vh; }
+        .analysis-grid-excel { grid-template-columns: repeat(4, 1fr); }
+        .modal-actions { flex-direction: column; }
+        .btn-primary, .btn-secondary, .btn-danger { width: 100%; }
+    }
+
+    @media (max-width: 480px) {
+        .main-header { padding: 0 15px; }
+        .page-title { font-size: 16px; letter-spacing: 2px; }
+        .main-layout { padding: 10px; margin-top: 65px; }
+        .sidebar, .dashboard { padding: 15px; }
+        .sidebar-widget { margin-top: 10px; padding: 10px; }
+        .widget-amount, .cyber-amount { font-size: 16px; }
+        .modal-content, .modal-content-details, .modal-content-month, .modal-content-months-selector {
+            width: 95%; margin: 10px;
+        }
+        .analysis-grid-excel { grid-template-columns: repeat(3, 1fr); }
+        .transactions-table th:nth-child(5), .transactions-table td:nth-child(5) { display: none; }
+    }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 6px; }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #00f2ff, #9d00ff); border-radius: 6px; }
+    ::-webkit-scrollbar-thumb:hover { background: #00f2ff; }
+    </style>
+</head>
+<body>
+    <div class="grid-bg"></div>
+
+    <header class="main-header">
+        <h1 class="page-title">ΙΣΟΛΟΓΙΣΜΟΣ</h1>
+    </header>
+
+    <main class="main-layout">
+        <aside class="sidebar">
+            <div class="sidebar-buttons-container">
+                <button class="sidebar-btn analysis-btn" id="sidebar-analysis-btn">
+                    <i class="fas fa-table"></i>
+                    <span>ΑΝΑΛΥΣΗ</span>
+                </button>
+                <button class="sidebar-btn new-transaction-btn" id="sidebar-new-transaction-btn">
+                    <i class="fas fa-plus"></i>
+                    <span>ΝΕΑ ΚΑΤΑΧΩΡΗΣΗ</span>
+                </button>
+                <button class="sidebar-btn import-btn" id="sidebar-import-btn">
+                    <i class="fas fa-upload"></i>
+                    <span>ΕΙΣΑΓΩΓΗ</span>
+                </button>
+                <button class="sidebar-btn export-btn" id="sidebar-export-btn">
+                    <i class="fas fa-download"></i>
+                    <span>ΕΞΑΓΩΓΗ</span>
+                </button>
+                <button class="sidebar-btn months-btn" id="sidebar-months-btn">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>ΜΗΝΕΣ</span>
+                </button>
+            </div>
+
+            <div class="sidebar-widget" id="sidebar-widget">
+                <div class="widget-content">
+                    <div class="widget-amount" id="total-amount">
+                        <span class="cyber-amount">000,00 €</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <section class="dashboard">
+            <div class="dashboard-cards">
+                <div class="stat-card cash-card">
+                    <div class="card-accent cash-accent"></div>
+                    <div class="card-content">
+                        <h3 class="card-title">ΜΕΤΡΗΤΑ</h3>
+                        <p class="card-value" id="stat-cash">0.00 €</p>
+                    </div>
+                </div>
+                <div class="stat-card salary-card">
+                    <div class="card-accent salary-accent"></div>
+                    <div class="card-content">
+                        <h3 class="card-title">ΜΙΣΘΟΔΟΣΙΑ</h3>
+                        <p class="card-value" id="stat-salary">0.00 €</p>
+                    </div>
+                </div>
+                <div class="stat-card card-card">
+                    <div class="card-accent card-accent-style"></div>
+                    <div class="card-content">
+                        <h3 class="card-title">ΚΑΡΤΑ</h3>
+                        <p class="card-value" id="stat-card">0.00 €</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="transactions-section">
+                <div class="transactions-header">
+                    <h3>ΣΥΝΑΛΛΑΓΕΣ</h3>
+                    <span class="transactions-count">(10 τελευταίες)</span>
+                </div>
+                <div class="transactions-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ΗΜΕΡΟΜΗΝΙΑ</th>
+                                <th>ΠΕΡΙΓΡΑΦΗ</th>
+                                <th>ΚΑΤΗΓΟΡΙΑ</th>
+                                <th>ΠΟΣΟ</th>
+                                <th>ΕΝΕΡΓΕΙΕΣ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="last-transactions">
+                            <tr class="empty-row">
+                                <td colspan="5">Δεν υπάρχουν καταχωρήσεις</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="analysis-panel">
+        <div class="analysis-header">
+            <div class="analysis-title-container">
+                <h2 id="analysis-title">ΑΝΑΛΥΣΗ</h2>
+                <p id="analysis-subtitle">ΜΗΝΕΣ × ΚΑΤΗΓΟΡΙΕΣ</p>
+            </div>
+            <button class="analysis-close-btn" id="analysis-close-btn">
+                <i class="fas fa-times"></i>
+                ΚΛΕΙΣΙΜΟ
+            </button>
+        </div>
+        <div class="analysis-content">
+            <div class="analysis-grid-excel" id="analysis-grid">
+                <div class="grid-placeholder">
+                    <i class="fas fa-table"></i>
+                    <p>ΔΕΝ ΥΠΑΡΧΟΥΝ ΚΑΤΑΧΩΡΗΣΕΙΣ</p>
+                </div>
+            </div>
+            <div class="analysis-total-container">
+                <div class="analysis-total" id="analysis-total">
+                    <span class="total-label">ΤΕΛΙΚΟ ΥΠΟΛΟΙΠΟ:</span>
+                    <span class="total-amount">0,00 €</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">ΝΕΑ ΣΥΝΑΛΛΑΓΗ</h3>
+                <button class="modal-close" id="modal-close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="edit-id" value="">
+                <div class="form-group">
+                    <label for="in-date">ΗΜΕΡΟΜΗΝΙΑ</label>
+                    <input type="date" id="in-date" class="modal-input">
+                </div>
+                <div class="form-group">
+                    <label for="in-type">ΤΥΠΟΣ</label>
+                    <select id="in-type" class="modal-select">
+                        <option value="income">ΕΣΟΔΑ</option>
+                        <option value="expense">ΕΞΟΔΑ</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="in-cat">ΚΑΤΗΓΟΡΙΑ</label>
+                    <select id="in-cat" class="modal-select">
+                        <option value="cash">ΜΕΤΡΗΤΑ</option>
+                        <option value="salary">ΜΙΣΘΟΔΟΣΙΑ</option>
+                        <option value="card">ΚΑΡΤΑ</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="in-amount">ΠΟΣΟ (€)</label>
+                    <input type="number" id="in-amount" step="0.01" placeholder="0.00" class="modal-input">
+                </div>
+                <div class="form-group">
+                    <label for="in-desc">ΠΕΡΙΓΡΑΦΗ</label>
+                    <input type="text" id="in-desc" placeholder="Περιγραφή συναλλαγής..." class="modal-input">
+                </div>
+                <div class="modal-actions">
+                    <button class="btn-primary" id="save-entry-btn">
+                        <i class="fas fa-save"></i>
+                        ΑΠΟΘΗΚΕΥΣΗ
+                    </button>
+                    <button class="btn-secondary" id="cancel-btn">
+                        ΑΚΥΡΩΣΗ
+                    </button>
+                    <button class="btn-danger" id="delete-entry-btn" style="display: none;">
+                        <i class="fas fa-trash"></i>
+                        ΔΙΑΓΡΑΦΗ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="details-modal-overlay" class="modal-overlay-details">
+        <div class="modal-content-details">
+            <div class="modal-header-details">
+                <h3 id="details-modal-title">ΛΕΠΤΟΜΕΡΕΙΕΣ ΣΥΝΑΛΛΑΓΩΝ</h3>
+                <div>
+                    <button class="header-tool-btn" id="delete-transaction-btn" title="Διαγραφή Όλων">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    <button class="modal-close-details" id="details-modal-close-btn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body-details">
+                <div class="details-content" id="details-modal-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="month-modal-overlay" class="modal-overlay-month">
+        <div class="modal-content-month">
+            <div class="modal-header-month">
+                <h3 id="month-modal-title">ΜΗΝΑΣ</h3>
+                <div>
+                    <button class="modal-close-month" id="month-modal-close-btn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body-month">
+                <div class="month-content" id="month-modal-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="months-selector-modal-overlay" class="modal-overlay-months-selector">
+        <div class="modal-content-months-selector">
+            <div class="modal-header-months-selector">
+                <h3 id="months-selector-title">ΕΠΙΛΟΓΗ ΜΗΝΑ</h3>
+                <button class="modal-close-months-selector" id="months-selector-close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body-months-selector">
+                <div class="months-selector-content" id="months-selector-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <input type="file" id="fileInput" accept=".json" style="display: none;">
+
+    <script>
+    /* ===========================================
+       ΙΣΟΛΟΓΙΣΜΟΣ - COMPLETE JAVASCRIPT
+       =========================================== */
+
+    const MONTHS_GREEK = [
+        'Ιανουάριος', 'Φεβρουάριος', 'Μάρτιος', 'Απρίλιος',
+        'Μάιος', 'Ιούνιος', 'Ιούλιος', 'Αύγουστος',
+        'Σεπτέμβριος', 'Οκτώβριος', 'Νοέμβριος', 'Δεκέμβριος'
+    ];
+
+    const MONTHS_SHORT = [
+        'ΙΑΝ', 'ΦΕΒ', 'ΜΑΡ', 'ΑΠΡ', 'ΜΑΙ', 'ΙΟΥΝ',
+        'ΙΟΥΛ', 'ΑΥΓ', 'ΣΕΠ', 'ΟΚΤ', 'ΝΟΕ', 'ΔΕΚ'
+    ];
+
+    const CATEGORY_COLORS = {
+        'cash': '#9d00ff',
+        'salary': '#00f2ff',
+        'card': '#ffffff'
+    };
+
+    const CATEGORY_NAMES = {
+        'cash': 'ΜΕΤΡΗΤΑ',
+        'salary': 'ΜΙΣΘΟΔΟΣΙΑ',
+        'card': 'ΚΑΡΤΑ'
+    };
+
+    // ΚΑΘΑΡΟ ΠΕΡΙΒΑΛΛΟΝ - ΜΗΔΕΝΙΚΑ ΑΡΧΙΚΑ ΥΠΟΛΟΙΠΑ
+    const PREVIOUS_YEAR_BALANCES = {
+        'cash': 0,
+        'salary': 0,
+        'card': 0
+    };
+
+    let db = JSON.parse(localStorage.getItem('isologismos_db')) || [];
+    let currentEditId = null;
+
+    let currentCellDetails = {
+        monthIndex: null,
+        category: null
+    };
+
+    const analysisPanel = document.getElementById('analysis-panel');
+    const detailsModal = document.getElementById('details-modal-overlay');
+    const detailsModalContent = document.getElementById('details-modal-content');
+    const deleteTransactionBtn = document.getElementById('delete-transaction-btn');
+    const monthModal = document.getElementById('month-modal-overlay');
+    const monthModalContent = document.getElementById('month-modal-content');
+    const monthsSelectorModal = document.getElementById('months-selector-modal-overlay');
+    const monthsSelectorContent = document.getElementById('months-selector-content');
+
+    const modalTitle = document.getElementById('modal-title');
+    const editIdField = document.getElementById('edit-id');
+    const deleteEntryBtn = document.getElementById('delete-entry-btn');
+
+    const sidebarWidget = document.getElementById('sidebar-widget');
+    const sidebarAnalysisBtn = document.getElementById('sidebar-analysis-btn');
+    const sidebarNewTransactionBtn = document.getElementById('sidebar-new-transaction-btn');
+    const sidebarImportBtn = document.getElementById('sidebar-import-btn');
+    const sidebarExportBtn = document.getElementById('sidebar-export-btn');
+    const sidebarMonthsBtn = document.getElementById('sidebar-months-btn');
+
+    /* ===== INITIALIZATION ===== */
+    document.addEventListener('DOMContentLoaded', function() {
+        init();
+    });
+
+    function init() {
+        console.log('🚀 ΙΣΟΛΟΓΙΣΜΟΣ αρχικοποιείται...');
+        const today = new Date();
+        const formattedDate = today.toISOString().split('T')[0];
+        document.getElementById('in-date').value = formattedDate;
+        updateDashboard();
+        renderLastTransactions();
+        setupEventListeners();
+        console.log('✅ ΙΣΟΛΟΓΙΣΜΟΣ έτοιμος!');
+    }
+
+    /* ===== DATA MANAGEMENT ===== */
+    function getMonthData(monthIndex) {
+        return db.filter(entry => {
+            const entryDate = new Date(entry.date);
+            return entryDate.getMonth() === monthIndex;
+        });
+    }
+
+    function getCategoryData(category) {
+        return db.filter(entry => entry.category === category);
+    }
+
+    function getMonthCategoryData(monthIndex, category) {
+        return db.filter(entry => {
+            const entryDate = new Date(entry.date);
+            return entryDate.getMonth() === monthIndex && entry.category === category;
+        });
+    }
+
+    function getActiveMonths() {
+        const monthIndices = new Set();
+        db.forEach(entry => {
+            const monthIndex = new Date(entry.date).getMonth();
+            monthIndices.add(monthIndex);
+        });
+        return Array.from(monthIndices).sort((a, b) => a - b);
+    }
+
+    function calculateCategoryTotals() {
+        let cash = PREVIOUS_YEAR_BALANCES.cash;
+        let salary = PREVIOUS_YEAR_BALANCES.salary;
+        let card = PREVIOUS_YEAR_BALANCES.card;
+
+        db.forEach(entry => {
+            const amount = parseFloat(entry.amount);
+            if (entry.type === 'income') {
+                if (entry.category === 'cash') cash += amount;
+                else if (entry.category === 'salary') salary += amount;
+                else if (entry.category === 'card') card += amount;
+            } else {
+                if (entry.category === 'cash') cash -= amount;
+                else if (entry.category === 'salary') salary -= amount;
+                else if (entry.category === 'card') card -= amount;
+            }
+        });
+
+        return { cash, salary, card };
+    }
+
+    function calculateTotal() {
+        const totals = calculateCategoryTotals();
+        return totals.cash + totals.salary + totals.card;
+    }
+
+    function calculateMonthTotal(monthIndex) {
+        const monthData = getMonthData(monthIndex);
+        let total = 0;
+        monthData.forEach(entry => {
+            const amount = parseFloat(entry.amount);
+            if (entry.type === 'income') {
+                total += amount;
+            } else {
+                total -= amount;
+            }
+        });
+        return total;
+    }
+
+    /* ===== DASHBOARD ===== */
+    function updateDashboard() {
+        const totals = calculateCategoryTotals();
+        const totalAmount = calculateTotal();
+
+        document.getElementById('stat-cash').textContent = `${totals.cash.toFixed(2)} €`;
+        document.getElementById('stat-salary').textContent = `${totals.salary.toFixed(2)} €`;
+        document.getElementById('stat-card').textContent = `${totals.card.toFixed(2)} €`;
+
+        updateSidebarWidget(totalAmount);
+        renderLastTransactions();
+
+        if (analysisPanel.classList.contains('active')) {
+            renderAnalysisGrid();
+            updateAnalysisTotal();
+        }
+    }
+
+    function updateSidebarWidget(amount) {
+        const totalAmount = document.getElementById('total-amount');
+        const cyberAmount = totalAmount.querySelector('.cyber-amount');
+
+        const formatted = Math.abs(amount).toFixed(2);
+        const parts = formatted.split('.');
+        const integerPart = parts[0];
+        const decimalPart = parts[1];
+
+        let displayText = '';
+
+        if (integerPart.length > 3) {
+            const thousands = integerPart.slice(0, -3);
+            const hundreds = integerPart.slice(-3);
+            displayText = `${thousands}.${hundreds},${decimalPart} €`;
+        } else {
+            const padded = integerPart.padStart(3, '0');
+            displayText = `${padded},${decimalPart} €`;
+        }
+
+        if (amount < 0) {
+            displayText = `-${displayText}`;
+            cyberAmount.classList.add('negative');
+        } else {
+            cyberAmount.classList.remove('negative');
+        }
+
+        cyberAmount.textContent = displayText;
+    }
+
+    /* ===== ANALYSIS GRID ===== */
+    function openAnalysis() {
+        analysisPanel.classList.add('active');
+        blurBackground(true);
+        renderAnalysisGrid();
+        updateAnalysisTotal();
+    }
+
+    function renderAnalysisGrid() {
+        const gridContainer = document.getElementById('analysis-grid');
+
+        if (db.length === 0) {
+            gridContainer.innerHTML = `
+                <div class="grid-placeholder">
+                    <i class="fas fa-table"></i>
+                    <p>ΔΕΝ ΥΠΑΡΧΟΥΝ ΚΑΤΑΧΩΡΗΣΕΙΣ</p>
+                </div>
+            `;
+            return;
+        }
+
+        let html = '';
+        html += `<div class="grid-header-category"></div>`;
+
+        for (let i = 0; i < 12; i++) {
+            html += `<div class="grid-header-month">${MONTHS_SHORT[i]}</div>`;
+        }
+
+        const categories = ['cash', 'salary', 'card'];
+        categories.forEach(category => {
+            const categoryName = CATEGORY_NAMES[category] || category.toUpperCase();
+            html += `<div class="grid-header-category">${categoryName}</div>`;
+
+            for (let monthIndex = 0; monthIndex < 12; monthIndex++) {
+                const data = getMonthCategoryData(monthIndex, category);
+                const count = data.length;
+                const bulletColor = CATEGORY_COLORS[category];
+                const bulletClass = `bullet-${category}`;
+
+                html += `
+                    <div class="grid-cell-excel" 
+                         data-month="${monthIndex}" 
+                         data-category="${category}"
+                         onclick="openCellDetails(${monthIndex}, '${category}')">
+                        <div class="cell-bullet-container">
+                            ${count > 0 ? `<div class="cell-bullet ${bulletClass}" style="background: ${bulletColor}"></div>` : ''}
+                            <div class="cell-count">${count > 0 ? `${count}` : ''}</div>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+
+        gridContainer.innerHTML = html;
+    }
+
+    function updateAnalysisTotal() {
+        const total = calculateTotal();
+        const totalElement = document.querySelector('.total-amount');
+
+        const formatted = Math.abs(total).toFixed(2);
+        const parts = formatted.split('.');
+        const integerPart = parts[0];
+        const decimalPart = parts[1];
+
+        let html = '';
+
+        if (integerPart.length > 3) {
+            const thousands = integerPart.slice(0, -3);
+            const hundreds = integerPart.slice(-3);
+            html = `<span class="cyber-amount-holo">${thousands}.${hundreds},${decimalPart} €</span>`;
+        } else {
+            html = `<span class="cyber-amount-holo">${integerPart},${decimalPart} €</span>`;
+        }
+
+        if (total < 0) {
+            html = `<span style="color: #9d00ff;">-</span>${html}`;
+        }
+
+        totalElement.innerHTML = html;
+    }
+
+    function closeAnalysis() {
+        analysisPanel.classList.remove('active');
+        blurBackground(false);
+    }
+
+    function blurBackground(enable) {
+        const mainContent = document.querySelector('.main-layout');
+        const header = document.querySelector('.main-header');
+
+        if (enable) {
+            mainContent.style.filter = 'blur(8px) brightness(0.7)';
+            header.style.filter = 'blur(8px) brightness(0.7)';
+        } else {
+            mainContent.style.filter = 'none';
+            header.style.filter = 'none';
+        }
+    }
+
+    /* ===== LAST TRANSACTIONS ===== */
+    function renderLastTransactions() {
+        const container = document.getElementById('last-transactions');
+
+        if (db.length === 0) {
+            container.innerHTML = `
+                <tr class="empty-row">
+                    <td colspan="5">Δεν υπάρχουν καταχωρήσεις</td>
+                </tr>
+            `;
+            return;
+        }
+
+        const lastTransactions = [...db]
+            .sort((a, b) => a.id - b.id)
+            .slice(-10)
+            .reverse();
+
+        let html = '';
+
+        lastTransactions.forEach(entry => {
+            const isIncome = entry.type === 'income';
+            const rowClass = isIncome ? 'income-row' : 'expense-row';
+            const amountColor = isIncome ? '#00f2ff' : '#9d00ff';
+            const sign = isIncome ? '+' : '-';
+            const categoryColor = CATEGORY_COLORS[entry.category] || '#ffffff';
+            const categoryClass = `category-${entry.category}`;
+            const categoryName = CATEGORY_NAMES[entry.category] || entry.category.toUpperCase();
+
+            html += `
+                <tr class="${rowClass}">
+                    <td style="color: #ffffff; font-family: 'Orbitron', sans-serif; font-weight: 500;">
+                        ${formatDate(entry.date)}
+                    </td>
+                    <td style="color: ${amountColor}; font-family: 'JetBrains Mono', monospace;">
+                        ${entry.desc || '-'}
+                    </td>
+                    <td class="${categoryClass}" style="color: ${categoryColor}; font-family: 'Orbitron', sans-serif; font-weight: bold;">
+                        ${categoryName}
+                    </td>
+                    <td style="color: ${amountColor}; font-family: 'Orbitron', sans-serif; font-weight: bold;">
+                        ${sign}${parseFloat(entry.amount).toFixed(2)} €
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn edit-btn" onclick="editTransaction(${entry.id})" title="Επεξεργασία">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn delete-btn" onclick="deleteTransaction(${entry.id})" title="Διαγραφή">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        });
+
+        container.innerHTML = html;
+    }
+
+    /* ===== MONTHS SELECTOR ===== */
+    function openMonthsSelector() {
+        const activeMonths = getActiveMonths();
+
+        let html = '';
+
+        if (activeMonths.length === 0) {
+            html = `
+                <div class="month-selector-placeholder">
+                    <i class="fas fa-calendar-times" style="font-size: 48px; margin-bottom: 20px;"></i>
+                    <p>ΔΕΝ ΥΠΑΡΧΟΥΝ ΚΑΤΑΧΩΡΗΣΕΙΣ</p>
+                    <p style="font-size: 12px; margin-top: 10px; opacity: 0.7;">
+                        Προσθέστε την πρώτη σας συναλλαγή
+                    </p>
+                </div>
+            `;
+        } else {
+            activeMonths.forEach((monthIndex, idx) => {
+                const monthData = getMonthData(monthIndex);
+                const monthTotal = calculateMonthTotal(monthIndex);
+                const monthColor = idx % 2 === 0 ? '#9d00ff' : '#00f2ff';
+                const totalColor = monthTotal >= 0 ? '#00f2ff' : '#9d00ff';
+                const totalSign = monthTotal >= 0 ? '+' : '';
+
+                html += `
+                    <button class="month-selector-btn" onclick="openMonthModal(${monthIndex}); closeMonthsSelector();" 
+                            style="border-left-color: ${monthColor}">
+                        <span class="month-selector-name">${MONTHS_GREEK[monthIndex].toUpperCase()}</span>
+                        <span class="month-selector-total" style="color: ${totalColor}">
+                            ${totalSign}${monthTotal.toFixed(2)} €
+                        </span>
+                    </button>
+                `;
+            });
+        }
+
+        monthsSelectorContent.innerHTML = html;
+        monthsSelectorModal.style.display = 'flex';
+    }
+
+    function closeMonthsSelector() {
+        monthsSelectorModal.style.display = 'none';
+    }
+
+    /* ===== CELL DETAILS ===== */
+    function openCellDetails(monthIndex, category) {
+        currentCellDetails.monthIndex = monthIndex;
+        currentCellDetails.category = category;
+
+        const data = getMonthCategoryData(monthIndex, category);
+        const monthName = MONTHS_GREEK[monthIndex];
+        const categoryName = CATEGORY_NAMES[category] || category.toUpperCase();
+
+        let html = `
+            <table class="details-table">
+                <thead>
+                    <tr>
+                        <th>ΗΜΕΡΟΜΗΝΙΑ</th>
+                        <th>ΤΥΠΟΣ</th>
+                        <th>ΚΑΤΗΓΟΡΙΑ</th>
+                        <th>ΠΟΣΟ</th>
+                        <th>ΠΕΡΙΓΡΑΦΗ</th>
+                        <th>ΕΝΕΡΓΕΙΕΣ</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+
+        if (data.length === 0) {
+            html += `
+                <tr>
+                    <td colspan="6" style="text-align: center; padding: 40px; color: rgba(255, 255, 255, 0.3);">
+                        Δεν υπάρχουν συναλλαγές για αυτήν την κατηγορία
+                    </td>
+                </tr>
+            `;
+        } else {
+            data.sort((a, b) => a.id - b.id);
+
+            data.forEach(entry => {
+                const isIncome = entry.type === 'income';
+                const rowClass = isIncome ? 'income-row' : 'expense-row';
+                const typeText = isIncome ? 'ΕΣΟΔΑ' : 'ΕΞΟΔΑ';
+                const amountColor = isIncome ? '#00f2ff' : '#9d00ff';
+                const sign = isIncome ? '+' : '-';
+
+                html += `
+                    <tr class="${rowClass}" data-id="${entry.id}">
+                        <td style="color: #ffffff;">${formatDate(entry.date)}</td>
+                        <td>${typeText}</td>
+                        <td style="color: ${CATEGORY_COLORS[entry.category]};">${CATEGORY_NAMES[entry.category] || entry.category.toUpperCase()}</td>
+                        <td style="color: ${amountColor}; font-weight: bold;">${sign}${parseFloat(entry.amount).toFixed(2)} €</td>
+                        <td>${entry.desc || '-'}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn edit-btn" onclick="editTransaction(${entry.id})" title="Επεξεργασία">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete-btn" onclick="deleteTransaction(${entry.id})" title="Διαγραφή">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        html += `</tbody></table>`;
+
+        detailsModalContent.innerHTML = html;
+        document.getElementById('details-modal-title').textContent = `${monthName} - ${categoryName}`;
+        detailsModal.style.display = 'flex';
+
+        deleteTransactionBtn.style.display = data.length > 0 ? 'flex' : 'none';
+    }
+
+    function deleteTransaction(id) {
+        if (!confirm('Θέλετε σίγουρα να διαγράψετε αυτή τη συναλλαγή;')) return;
+
+        db = db.filter(entry => entry.id !== id);
+        localStorage.setItem('isologismos_db', JSON.stringify(db));
+
+        updateDashboard();
+        refreshCurrentModals();
+        showToast('Η συναλλαγή διαγράφηκε επιτυχώς!');
+    }
+
+    function editTransaction(id) {
+        const entry = db.find(e => e.id === id);
+        if (!entry) return;
+
+        closeDetailsModal();
+        closeMonthModal();
+        closeMonthsSelector();
+        openEditModal(entry);
+    }
+
+    function openEditModal(entry) {
+        document.getElementById('modal-overlay').style.display = 'flex';
+        modalTitle.textContent = 'ΕΠΕΞΕΡΓΑΣΙΑ ΣΥΝΑΛΛΑΓΗΣ';
+
+        document.getElementById('in-date').value = entry.date;
+        document.getElementById('in-type').value = entry.type;
+        document.getElementById('in-cat').value = entry.category;
+        document.getElementById('in-amount').value = entry.amount;
+        document.getElementById('in-desc').value = entry.desc || '';
+
+        currentEditId = entry.id;
+        editIdField.value = entry.id;
+        deleteEntryBtn.style.display = 'flex';
+        document.getElementById('in-date').focus();
+    }
+
+    function saveEntry() {
+        const id = currentEditId || Date.now();
+
+        const entry = {
+            id: id,
+            date: document.getElementById('in-date').value,
+            type: document.getElementById('in-type').value,
+            category: document.getElementById('in-cat').value,
+            amount: parseFloat(document.getElementById('in-amount').value) || 0,
+            desc: document.getElementById('in-desc').value.trim()
+        };
+
+        if (entry.amount <= 0) {
+            alert('Παρακαλώ εισάγετε έγκυρο ποσό.');
+            return;
+        }
+
+        if (!entry.date) {
+            alert('Παρακαλώ επιλέξτε ημερομηνία.');
+            return;
+        }
+
+        const isEdit = !!currentEditId;
+
+        if (currentEditId) {
+            const index = db.findIndex(e => e.id === currentEditId);
+            if (index !== -1) db[index] = entry;
+        } else {
+            db.push(entry);
+        }
+
+        localStorage.setItem('isologismos_db', JSON.stringify(db));
+
+        updateDashboard();
+        closeModal();
+
+        if (analysisPanel.classList.contains('active')) {
+            renderAnalysisGrid();
+            updateAnalysisTotal();
+        }
+
+        showToast(isEdit ? 'Η συναλλαγή ενημερώθηκε επιτυχώς!' : 'Η συναλλαγή προστέθηκε επιτυχώς!');
+    }
+
+    function deleteCurrentEntry() {
+        if (!currentEditId) return;
+
+        if (!confirm('Θέλετε σίγουρα να διαγράψετε αυτή τη συναλλαγή;')) return;
+
+        db = db.filter(entry => entry.id !== currentEditId);
+        localStorage.setItem('isologismos_db', JSON.stringify(db));
+
+        updateDashboard();
+        closeModal();
+
+        if (analysisPanel.classList.contains('active')) {
+            renderAnalysisGrid();
+            updateAnalysisTotal();
+        }
+
+        showToast('Η συναλλαγή διαγράφηκε επιτυχώς!');
+    }
+
+    function deleteCurrentTransactions() {
+        if (currentCellDetails.monthIndex === null) return;
+
+        const monthIndex = currentCellDetails.monthIndex;
+        const category = currentCellDetails.category;
+
+        const data = getMonthCategoryData(monthIndex, category);
+
+        if (data.length === 0) {
+            showToast('Δεν υπάρχουν συναλλαγές προς διαγραφή');
+            return;
+        }
+
+        const categoryName = CATEGORY_NAMES[category] || category.toUpperCase();
+        if (!confirm(`Θέλετε σίγουρα να διαγράψετε όλες τις ${data.length} συναλλαγές για ${MONTHS_GREEK[monthIndex]} - ${categoryName}; Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.`)) {
+            return;
+        }
+
+        const idsToDelete = data.map(entry => entry.id);
+        db = db.filter(entry => !idsToDelete.includes(entry.id));
+
+        localStorage.setItem('isologismos_db', JSON.stringify(db));
+
+        closeDetailsModal();
+        updateDashboard();
+
+        if (analysisPanel.classList.contains('active')) {
+            renderAnalysisGrid();
+            updateAnalysisTotal();
+        }
+
+        showToast(`Διαγράφηκαν ${data.length} συναλλαγές`);
+    }
+
+    function refreshCurrentModals() {
+        if (detailsModal.style.display === 'flex' && currentCellDetails.monthIndex !== null) {
+            openCellDetails(currentCellDetails.monthIndex, currentCellDetails.category);
+        }
+
+        if (monthModal.style.display === 'flex') {
+            const monthIndex = parseInt(monthModalContent.dataset.monthIndex);
+            if (!isNaN(monthIndex)) {
+                openMonthModal(monthIndex);
+            }
+        }
+
+        if (monthsSelectorModal.style.display === 'flex') {
+            openMonthsSelector();
+        }
+    }
+
+    /* ===== MONTH MODAL ===== */
+    function openMonthModal(monthIndex) {
+        const monthData = getMonthData(monthIndex);
+        const monthTotal = calculateMonthTotal(monthIndex);
+        const monthName = MONTHS_GREEK[monthIndex];
+
+        monthModalContent.dataset.monthIndex = monthIndex;
+
+        let html = `
+            <div class="month-header" style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid rgba(0, 242, 255, 0.5);">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3 style="font-family: 'Orbitron', sans-serif; color: #00f2ff; letter-spacing: 3px;">${monthName}</h3>
+                    <div style="font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: bold; color: ${monthTotal >= 0 ? '#00f2ff' : '#9d00ff'}">
+                        ${monthTotal >= 0 ? '+' : ''}${monthTotal.toFixed(2)} €
+                    </div>
+                </div>
+            </div>
+            <div class="month-transactions-list">
+        `;
+
+        if (monthData.length === 0) {
+            html += `
+                <div style="text-align: center; padding: 40px; color: rgba(255, 255, 255, 0.3);">
+                    <i class="fas fa-database" style="font-size: 48px; margin-bottom: 20px;"></i>
+                    <p>Δεν υπάρχουν συναλλαγές για αυτόν τον μήνα</p>
+                </div>
+            `;
+        } else {
+            monthData.sort((a, b) => a.id - b.id);
+
+            monthData.forEach(entry => {
+                const isIncome = entry.type === 'income';
+                const rowClass = isIncome ? 'month-transaction-income' : 'month-transaction-expense';
+                const amountClass = isIncome ? 'income-amount-month' : 'expense-amount-month';
+                const categoryClass = `category-${entry.category}-month`;
+                const sign = isIncome ? '+' : '-';
+                const categoryColor = CATEGORY_COLORS[entry.category] || '#ffffff';
+                const categoryName = CATEGORY_NAMES[entry.category] || entry.category.toUpperCase();
+
+                html += `
+                    <div class="month-transaction-item ${rowClass}">
+                        <div class="month-transaction-desc">
+                            <div class="month-transaction-category ${categoryClass}" style="color: ${categoryColor}">
+                                ${categoryName}
+                            </div>
+                            <div style="margin-bottom: 5px;">${entry.desc || '-'}</div>
+                            <div style="font-size: 11px; opacity: 0.7; color: #ffffff;">
+                                ${formatDate(entry.date)}
+                            </div>
+                        </div>
+                        <div class="month-transaction-amount ${amountClass}">
+                            ${sign}${parseFloat(entry.amount).toFixed(2)} €
+                        </div>
+                        <div class="action-buttons" style="margin-left: 15px;">
+                            <button class="action-btn edit-btn" onclick="editTransaction(${entry.id})" title="Επεξεργασία">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn delete-btn" onclick="deleteTransaction(${entry.id})" title="Διαγραφή">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        html += `</div>`;
+
+        monthModalContent.innerHTML = html;
+        document.getElementById('month-modal-title').textContent = monthName;
+        monthModal.style.display = 'flex';
+    }
+
+    function closeMonthModal() {
+        monthModal.style.display = 'none';
+    }
+
+    /* ===== MODAL FUNCTIONS ===== */
+    function openModal() {
+        currentEditId = null;
+        editIdField.value = '';
+        modalTitle.textContent = 'ΝΕΑ ΣΥΝΑΛΛΑΓΗ';
+        deleteEntryBtn.style.display = 'none';
+
+        document.getElementById('modal-overlay').style.display = 'flex';
+        const today = new Date();
+        const formattedDate = today.toISOString().split('T')[0];
+        document.getElementById('in-date').value = formattedDate;
+        document.getElementById('in-amount').value = '';
+        document.getElementById('in-desc').value = '';
+        document.getElementById('in-cat').value = 'cash';
+        document.getElementById('in-type').value = 'income';
+        document.getElementById('in-date').focus();
+    }
+
+    function closeModal() {
+        document.getElementById('modal-overlay').style.display = 'none';
+        currentEditId = null;
+        editIdField.value = '';
+    }
+
+    function closeDetailsModal() {
+        detailsModal.style.display = 'none';
+        currentCellDetails.monthIndex = null;
+        currentCellDetails.category = null;
+    }
+
+    /* ===== IMPORT/EXPORT ===== */
+    function exportData() {
+        const dataStr = JSON.stringify(db, null, 2);
+        const blob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `isologismos_backup_${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        showToast('Τα δεδομένα εξήχθησαν επιτυχώς!');
+    }
+
+    function importData() {
+        const fileInput = document.getElementById('fileInput');
+        fileInput.click();
+
+        fileInput.onchange = function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                try {
+                    const imported = JSON.parse(e.target.result);
+
+                    if (!Array.isArray(imported)) {
+                        throw new Error('Μη έγκυρο αρχείο δεδομένων');
+                    }
+
+                    const existingIds = new Set(db.map(item => item.id));
+                    const newEntries = imported.filter(item => !existingIds.has(item.id));
+
+                    db.push(...newEntries);
+                    localStorage.setItem('isologismos_db', JSON.stringify(db));
+
+                    updateDashboard();
+
+                    if (analysisPanel.classList.contains('active')) {
+                        renderAnalysisGrid();
+                        updateAnalysisTotal();
+                    }
+
+                    showToast(`${newEntries.length} νέες καταχωρήσεις προστέθηκαν!`);
+
+                } catch (err) {
+                    console.error('Import error:', err);
+                    alert('Σφάλμα: Μη έγκυρο αρχείο δεδομένων');
+                }
+            };
+
+            reader.readAsText(file);
+            fileInput.value = '';
+        };
+    }
+
+    /* ===== UTILITY ===== */
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('el-GR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
+    }
+
+    function showToast(message) {
+        const toast = document.createElement('div');
+        toast.textContent = message;
+
+        toast.style.cssText = `
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: rgba(0, 242, 255, 0.9);
+            color: #050508;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            letter-spacing: 2px;
+            z-index: 3000;
+            animation: slideIn 0.3s ease;
+            text-transform: uppercase;
+            font-weight: bold;
+            border: 1px solid rgba(0, 242, 255, 0.5);
+            box-shadow: 0 5px 20px rgba(0, 242, 255, 0.4);
+        `;
+
+        if (!document.getElementById('toast-styles')) {
+            const style = document.createElement('style');
+            style.id = 'toast-styles';
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            toast.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+
+    /* ===== EVENT LISTENERS ===== */
+    function setupEventListeners() {
+        sidebarAnalysisBtn.addEventListener('click', openAnalysis);
+        sidebarNewTransactionBtn.addEventListener('click', openModal);
+        sidebarImportBtn.addEventListener('click', importData);
+        sidebarExportBtn.addEventListener('click', exportData);
+        sidebarMonthsBtn.addEventListener('click', openMonthsSelector);
+
+        document.getElementById('save-entry-btn').addEventListener('click', saveEntry);
+        document.getElementById('cancel-btn').addEventListener('click', closeModal);
+        document.getElementById('modal-close-btn').addEventListener('click', closeModal);
+        document.getElementById('delete-entry-btn').addEventListener('click', deleteCurrentEntry);
+
+        document.getElementById('analysis-close-btn').addEventListener('click', closeAnalysis);
+
+        document.getElementById('details-modal-close-btn').addEventListener('click', closeDetailsModal);
+        deleteTransactionBtn.addEventListener('click', deleteCurrentTransactions);
+
+        document.getElementById('month-modal-close-btn').addEventListener('click', closeMonthModal);
+        document.getElementById('months-selector-close-btn').addEventListener('click', closeMonthsSelector);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (analysisPanel.classList.contains('active')) closeAnalysis();
+                else if (document.getElementById('modal-overlay').style.display === 'flex') closeModal();
+                else if (detailsModal.style.display === 'flex') closeDetailsModal();
+                else if (monthModal.style.display === 'flex') closeMonthModal();
+                else if (monthsSelectorModal.style.display === 'flex') closeMonthsSelector();
+            }
+        });
+
+        document.getElementById('modal-overlay').addEventListener('click', (e) => {
+            if (e.target.id === 'modal-overlay') closeModal();
+        });
+
+        detailsModal.addEventListener('click', (e) => {
+            if (e.target === detailsModal) closeDetailsModal();
+        });
+
+        monthModal.addEventListener('click', (e) => {
+            if (e.target === monthModal) closeMonthModal();
+        });
+
+        monthsSelectorModal.addEventListener('click', (e) => {
+            if (e.target === monthsSelectorModal) closeMonthsSelector();
+        });
+
+        document.getElementById('in-desc').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') saveEntry();
+        });
+
+        document.getElementById('in-amount').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') saveEntry();
+        });
+    }
+    </script>
+</body>
+</html>
