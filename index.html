@@ -51,22 +51,19 @@
         backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    /* ΝΕΟΣ ΤΙΤΛΟΣ PANE ΜΕ ΧΡΩΜΑΤΑ */
     .page-title {
         font-family: 'Orbitron', sans-serif;
         font-size: clamp(22px, 4vw, 32px);
         font-weight: 900;
         letter-spacing: clamp(4px, 1.5vw, 12px);
         text-transform: uppercase; text-align: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        display: flex; align-items: center; justify-content: center;
     }
     
-    .page-title .letter-p { color: #ffcc00; text-shadow: 0 0 10px rgba(255, 204, 0, 0.6); } /* Πειραιώς */
-    .page-title .letter-a { color: #0055ff; text-shadow: 0 0 10px rgba(0, 85, 255, 0.6); } /* Alpha */
-    .page-title .letter-n { color: #00f2ff; text-shadow: 0 0 10px rgba(0, 242, 255, 0.6); } /* NBG */
-    .page-title .letter-e { color: #ff2a2a; text-shadow: 0 0 10px rgba(255, 42, 42, 0.6); } /* Eurobank */
+    .page-title .letter-p { color: #ffcc00; text-shadow: 0 0 10px rgba(255, 204, 0, 0.6); }
+    .page-title .letter-a { color: #0055ff; text-shadow: 0 0 10px rgba(0, 85, 255, 0.6); }
+    .page-title .letter-n { color: #00f2ff; text-shadow: 0 0 10px rgba(0, 242, 255, 0.6); }
+    .page-title .letter-e { color: #ff2a2a; text-shadow: 0 0 10px rgba(255, 42, 42, 0.6); }
 
     .main-layout {
         display: grid;
@@ -181,30 +178,18 @@
     .transactions-table th { text-align: left; padding: 10px 8px; font-family: 'Orbitron', sans-serif; font-size: 10px; color: rgba(255, 255, 255, 0.5); border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
     .transactions-table td { padding: 10px 8px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-    .transactions-table th:nth-child(1) { width: 18%; }
-    .transactions-table th:nth-child(2) { width: 42%; }
+    /* Αφού φύγαν οι κουκκίδες, μοιράζουμε το πλάτος στις 4 στήλες */
+    .transactions-table th:nth-child(1) { width: 20%; }
+    .transactions-table th:nth-child(2) { width: 45%; }
     .transactions-table th:nth-child(3) { width: 22%; }
-    .transactions-table th:nth-child(4) { width: 8%;  }
-    .transactions-table th:nth-child(5) { width: 10%; }
+    .transactions-table th:nth-child(4) { width: 13%; }
 
     .action-buttons { display: flex; gap: 4px; justify-content: flex-end; }
     .action-btn { width: 28px; height: 28px; border-radius: 6px; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; }
     .edit-btn { background: rgba(0, 242, 255, 0.1); color: var(--cyan); border: 1px solid rgba(0, 242, 255, 0.3); }
     .delete-btn { background: rgba(255, 71, 87, 0.1); color: var(--expense-color); border: 1px solid rgba(255, 71, 87, 0.3); }
 
-    /* ΚΟΥΚΙΔΑ */
-    .status-dot {
-        display: inline-block; width: 10px; height: 10px; border-radius: 50%;
-        vertical-align: middle;
-    }
-    .status-dot.income { background: var(--income-color); box-shadow: 0 0 6px var(--income-color); animation: pulse-income 1.6s infinite; }
-    .status-dot.expense { background: var(--expense-color); box-shadow: 0 0 6px var(--expense-color); animation: pulse-expense 1.6s infinite; }
-    @keyframes pulse-income { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; box-shadow: 0 0 12px var(--income-color); } }
-    @keyframes pulse-expense { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; box-shadow: 0 0 12px var(--expense-color); } }
-
-    .transactions-table td.dot-cell { text-align: center; width: 30px; padding: 10px 4px; }
-
-    /* MODALS & PANELS (συντομευμένα για ευκολία) */
+    /* MODALS & PANELS */
     .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 10px; }
     .modal-content { background: rgba(10, 10, 20, 0.95); border: 2px solid rgba(0, 242, 255, 0.3); border-radius: 16px; width: 100%; max-width: 550px; max-height: 95dvh; display: flex; flex-direction: column; }
     .modal-header { display: flex; justify-content: space-between; padding: 15px 20px; border-bottom: 2px solid rgba(0, 242, 255, 0.2); }
@@ -218,13 +203,9 @@
     #analysis-panel.active { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
     .analysis-header { padding: 15px 20px; border-bottom: 2px solid rgba(0, 242, 255, 0.3); display: flex; justify-content: space-between; align-items: center;}
     .analysis-grid-wrapper { flex: 1; overflow: auto; padding: 15px; }
-    .analysis-table { width: 100%; border-collapse: collapse; }
-    .analysis-table th, .analysis-table td { border: 1px solid rgba(255, 255, 255, 0.1); padding: 8px; text-align: center; font-size: 11px; }
-    .analysis-table th { background: rgba(0, 242, 255, 0.1); color: var(--cyan); }
-    .analysis-bullet { width: 14px; height: 14px; border-radius: 50%; display: inline-block; }
 
     /* ===========================================
-       RESPONSIVE - ΔΙΟΡΘΩΣΗ ΓΙΑ ΝΑ ΜΗΝ ΚΡΥΒΟΝΤΑΙ ΟΙ ΤΡΑΠΕΖΕΣ
+       RESPONSIVE - ΔΙΟΡΘΩΣΗ ΓΙΑ ΝΑ ΦΑΙΝΟΝΤΑΙ ΟΛΑ
        =========================================== */
 
     @media (max-width: 1200px) {
@@ -237,11 +218,9 @@
         }
         .sidebar { 
             height: auto; 
-            padding: 15px;
+            padding: 12px;
             display: flex;
-            flex-direction: row; /* Οριζόντια διάταξη */
-            flex-wrap: wrap;
-            align-items: center;
+            flex-direction: column; 
             gap: 10px;
             overflow: visible;
         }
@@ -259,19 +238,20 @@
             margin: 0;
             flex: 1 1 auto;
             justify-content: center;
+            font-size: 11px;
         }
-        .sidebar-btn span { display: none; } /* Κρύβουμε το κείμενο, μένουν τα εικονίδια */
-        .sidebar-btn i { width: auto; font-size: 18px; margin: 0; }
+        .sidebar-btn i { display: none; } /* Κρύβουμε το εικονίδιο για να χωράει το κείμενο */
+        .sidebar-btn span { text-align: center; }
         
         .months-btn { margin-top: 0; }
         .sidebar-widget { 
             width: 100%; 
-            margin-top: 10px; 
+            margin-top: 5px; 
             padding: 10px; 
         }
         
         .dashboard { height: auto; overflow: visible; }
-        .transactions-section { max-height: none; }
+        .transactions-section { max-height: none; min-height: 50vh; }
     }
 
     @media (max-width: 900px) {
@@ -292,7 +272,6 @@
         
         .transactions-table tr {
             display: grid;
-            /* Στήλες: 1. Ημερομηνία, 2. Κενό, 3. Ποσό & Κουκκίδα */
             grid-template-columns: 1fr auto;
             grid-template-areas:
                 "date   amount"
@@ -309,10 +288,7 @@
         .transactions-table tr.income-row { border-left-color: var(--income-color); }
         .transactions-table tr.expense-row { border-left-color: var(--expense-color); }
         
-        .transactions-table td {
-            padding: 0; border: none; display: block; white-space: normal;
-        }
-        
+        .transactions-table td { padding: 0; border: none; display: block; white-space: normal; }
         .transactions-table td:nth-child(1) { grid-area: date; font-size: 11px; color: rgba(255,255,255,0.6) !important; }
         .transactions-table td:nth-child(2) { grid-area: desc; font-size: 14px; font-weight: 500; word-break: break-word; }
         
@@ -320,21 +296,14 @@
             grid-area: amount; 
             font-size: 16px; 
             text-align: right; 
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 8px;
         }
         
-        /* Η κουκκίδα μπαίνει μέσα στο ίδιο cell με το ποσό (δεξιά του) */
-        .transactions-table td.dot-cell { display: none; } /* Κρύβουμε το παλιό cell */
-        
-        .transactions-table td:nth-child(5) { 
+        .transactions-table td:nth-child(4) { 
             grid-area: actions; 
             justify-self: end; 
             margin-top: 4px;
         }
-        .transactions-table td:nth-child(5) .action-btn { width: 32px; height: 32px; font-size: 13px; }
+        .transactions-table td:nth-child(4) .action-btn { width: 32px; height: 32px; font-size: 13px; }
     }
 
     @media (max-width: 480px) {
@@ -342,9 +311,8 @@
         .page-title { font-size: 20px; letter-spacing: 6px; }
         .main-layout { margin-top: 55px; padding: 8px; }
         
-        .sidebar { padding: 10px; flex-direction: column; align-items: stretch; }
-        .sidebar-buttons-container { justify-content: space-between; }
-        .sidebar-btn { padding: 10px; flex: 1; }
+        .sidebar { padding: 10px; }
+        .sidebar-btn { padding: 10px 8px; font-size: 10px; }
         
         .sidebar-widget { margin-top: 5px; padding: 8px; }
         .cyber-amount { font-size: 16px; }
@@ -401,7 +369,7 @@
                 </button>
                 <button class="sidebar-btn new-transaction-btn" id="sidebar-new-transaction-btn">
                     <i class="fas fa-plus"></i>
-                    <span>ΝΕΑ ΚΑΤΑΧΩΡΗΣΗ</span>
+                    <span>ΚΑΤΑΧΩΡΗΣΗ</span>
                 </button>
                 <button class="sidebar-btn import-btn" id="sidebar-import-btn">
                     <i class="fas fa-upload"></i>
@@ -465,7 +433,7 @@
             <div class="transactions-section">
                 <div class="transactions-header">
                     <h3>ΣΥΝΑΛΛΑΓΕΣ</h3>
-                    <span class="transactions-count" style="font-size: 11px; opacity: 0.6;">(10 τελευταίες)</span>
+                    <span class="transactions-count" style="font-size: 11px; opacity: 0.6; margin-left: 10px;">(10 τελευταίες)</span>
                 </div>
                 <div class="transactions-table">
                     <table>
@@ -474,7 +442,6 @@
                                 <th>ΗΜΕΡ/ΝΙΑ</th>
                                 <th>ΠΕΡΙΓΡΑΦΗ</th>
                                 <th>ΠΟΣΟ</th>
-                                <th></th>
                                 <th>ΕΝΕΡΓ.</th>
                             </tr>
                         </thead>
@@ -488,18 +455,18 @@
     <!-- MODALS -->
     <div id="analysis-panel">
         <div class="analysis-header">
-            <div>
-                <h2 style="font-family: 'Orbitron'; color: var(--cyan);">ΑΝΑΛΥΣΗ</h2>
-            </div>
-            <button class="analysis-close-btn" id="analysis-close-btn" style="background: none; border: 1px solid #fff; color: #fff; padding: 5px 10px; border-radius: 5px; cursor: pointer;">ΚΛΕΙΣΙΜΟ</button>
+            <h2 style="font-family: 'Orbitron'; color: var(--cyan);">ΑΝΑΛΥΣΗ</h2>
+            <button id="analysis-close-btn" style="background: none; border: 1px solid #fff; color: #fff; padding: 5px 10px; border-radius: 5px; cursor: pointer;">ΚΛΕΙΣΙΜΟ</button>
         </div>
-        <div class="analysis-grid-wrapper" id="analysis-grid"></div>
+        <div class="analysis-grid-wrapper" id="analysis-grid">
+            <p style="color: #fff; padding: 20px;">Εδώ εμφανίζεται η ανάλυση...</p>
+        </div>
     </div>
 
     <div id="modal-overlay" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="modal-title" style="color: var(--cyan); font-family: 'Orbitron';">ΝΕΑ ΣΥΝΑΛΛΑΓΗ</h3>
+                <h3 id="modal-title" style="color: var(--cyan); font-family: 'Orbitron';">ΝΕΑ ΚΑΤΑΧΩΡΗΣΗ</h3>
                 <button id="modal-close-btn" style="background: none; border: none; color: #fff; cursor: pointer; font-size: 18px;"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body">
@@ -539,40 +506,30 @@
             </div>
         </div>
     </div>
-    
-    <!-- ΣΗΜΕΙΩΣΗ: Τα άλλα modals (details, bank, month, months-selector) παραλείπονται εδώ για συντομία, 
-         αλλά στο πλήρες αρχείο που θα κατεβάσεις θα υπάρχει η HTML τους. 
-         Αντικατέστησα τα IDs με τα αντίστοιχα του κώδικα JS. -->
 
     <input type="file" id="fileInput" accept=".json" style="display: none;">
 
     <script>
     const MONTHS_GREEK = ['Ιανουάριος', 'Φεβρουάριος', 'Μάρτιος', 'Απρίλιος', 'Μάιος', 'Ιούνιος', 'Ιούλιος', 'Αύγουστος', 'Σεπτέμβριος', 'Οκτώβριος', 'Νοέμβριος', 'Δεκέμβριος'];
-    const MONTHS_SHORT = ['ΙΑΝ', 'ΦΕΒ', 'ΜΑΡ', 'ΑΠΡ', 'ΜΑΙ', 'ΙΟΥΝ', 'ΙΟΥΛ', 'ΑΥΓ', 'ΣΕΠ', 'ΟΚΤ', 'ΝΟΕ', 'ΔΕΚ'];
-
     const CATEGORY_COLORS = { 'eurobank': '#ff2a2a', 'alpha': '#0055ff', 'nbg': '#00f2ff', 'piraeus': '#ffcc00' };
-    const CATEGORY_NAMES = { 'eurobank': 'EUROBANK', 'alpha': 'ALPHA BANK', 'nbg': 'NBG', 'piraeus': 'ΠΕΙΡΑΙΩΣ' };
-    const CATEGORY_ICONS = { 'eurobank': 'icon-eurobank', 'alpha': 'icon-alpha', 'nbg': 'icon-nbg', 'piraeus': 'icon-piraeus' };
-
-    const INCOME_COLOR = '#00ff88';
-    const EXPENSE_COLOR = '#ff4757';
 
     let db = JSON.parse(localStorage.getItem('isologismos_db')) || [];
-    let currentEditId = null;
 
     document.addEventListener('DOMContentLoaded', function() {
         const today = new Date();
         document.getElementById('in-date').value = today.toISOString().split('T')[0];
         updateDashboard();
         
-        // Event Listeners
         document.getElementById('sidebar-analysis-btn').onclick = () => {
             document.getElementById('analysis-panel').classList.add('active');
-            renderAnalysisGrid();
         };
-        document.getElementById('analysis-close-btn').onclick = () => document.getElementById('analysis-panel').classList.remove('active');
+        document.getElementById('analysis-close-btn').onclick = () => {
+            document.getElementById('analysis-panel').classList.remove('active');
+        };
         
-        document.getElementById('sidebar-new-transaction-btn').onclick = () => openModal();
+        document.getElementById('sidebar-new-transaction-btn').onclick = () => {
+            document.getElementById('modal-overlay').style.display = 'flex';
+        };
         document.getElementById('modal-close-btn').onclick = closeModal;
         document.getElementById('cancel-btn').onclick = closeModal;
         document.getElementById('save-entry-btn').onclick = saveEntry;
@@ -597,7 +554,7 @@
             reader.readAsText(file);
         };
         
-        document.getElementById('sidebar-months-btn').onclick = () => alert("Το ημερολόγιο μηνών θα ανοίξει εδώ.");
+        document.getElementById('sidebar-months-btn').onclick = () => alert("Η προβολή μηνών θα ανοίξει εδώ.");
     });
 
     function updateDashboard() {
@@ -621,7 +578,7 @@
     function renderLastTransactions() {
         const container = document.getElementById('last-transactions');
         if (db.length === 0) {
-            container.innerHTML = `<tr class="empty-row"><td colspan="5" style="text-align: center; padding: 20px; color: #666;">Δεν υπάρχουν καταχωρήσεις</td></tr>`;
+            container.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 20px; color: #666;">Δεν υπάρχουν καταχωρήσεις</td></tr>`;
             return;
         }
 
@@ -634,16 +591,14 @@
             const bankColor = CATEGORY_COLORS[entry.category];
             const dateStr = new Date(entry.date).toLocaleDateString('el-GR', { day: '2-digit', month: '2-digit', year: '2-digit' });
 
-            // ΣΗΜΑΝΤΙΚΟ: Στο mobile, η κουκκίδα μπαίνει μέσα στο td του ποσού (td:nth-child(3)) για να είναι δεξιά.
+            // Αφαιρέθηκαν οι κουκκίδες. Το χρώμα του ποσού δείχνει την τράπεζα και το border του tr το έσοδο/έξοδο.
             html += `
                 <tr class="${isIncome ? 'income-row' : 'expense-row'}">
                     <td>${dateStr}</td>
                     <td>${entry.desc || '-'}</td>
                     <td style="color: ${bankColor}; font-family: 'Orbitron', sans-serif; font-weight: bold;">
-                        <span>${sign}${parseFloat(entry.amount).toFixed(2)} €</span>
-                        <span class="status-dot ${isIncome ? 'income' : 'expense'}" style="margin-left: 8px;"></span>
+                        ${sign}${parseFloat(entry.amount).toFixed(2)} €
                     </td>
-                    <td class="dot-cell"></td> <!-- Κενό πλέον για desktop, κρύβεται σε mobile -->
                     <td>
                         <div class="action-buttons">
                             <button class="action-btn edit-btn" onclick="editTransaction(${entry.id})"><i class="fas fa-edit"></i></button>
@@ -654,14 +609,6 @@
             `;
         });
         container.innerHTML = html;
-    }
-
-    function openModal() {
-        document.getElementById('modal-overlay').style.display = 'flex';
-        document.getElementById('modal-title').textContent = 'ΝΕΑ ΣΥΝΑΛΛΑΓΗ';
-        document.getElementById('in-amount').value = '';
-        document.getElementById('in-desc').value = '';
-        document.getElementById('in-cat').value = 'eurobank';
     }
 
     function closeModal() {
@@ -693,18 +640,20 @@
         updateDashboard();
     }
     
+    function editTransaction(id) {
+        alert("Η επεξεργασία θα ανοίξει εδώ.");
+    }
+    
+    function openBankModal(cat) {
+        alert(`Άνοιγμα λεπτομερειών για ${cat}`);
+    }
+    
     function exportData() {
         const blob = new Blob([JSON.stringify(db, null, 2)], { type: 'application/json' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
         a.download = `pane_data.json`;
         a.click();
-    }
-    
-    function renderAnalysisGrid() {
-        const grid = document.getElementById('analysis-grid');
-        // Απλοποιημένη έκδοση για το παράδειγμα
-        grid.innerHTML = `<p style="color: #fff;">Εδώ εμφανίζεται η ανάλυση...</p>`;
     }
     </script>
 </body>
