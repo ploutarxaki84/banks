@@ -90,10 +90,9 @@
     .sidebar-btn:hover { transform: translateX(5px); box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3); }
 
     .btn-analysis { border-left: 3px solid var(--cyan); color: var(--cyan); }
-    .btn-transaction { border-left: 3px solid var(--cyan); color: var(--cyan); }
     .btn-import { border-left: 3px solid var(--income-color); color: var(--income-color); }
     .btn-export { border-left: 3px solid var(--expense-color); color: var(--expense-color); }
-    .btn-months { border-left: 3px solid var(--purple); color: var(--purple); margin-top: auto; }
+    .btn-months { border-left: 3px solid var(--purple); color: var(--purple); }
 
     .sidebar-widget {
         background: rgba(10, 10, 20, 0.9); border: 1px solid rgba(0, 242, 255, 0.3);
@@ -179,7 +178,7 @@
     /* SHARED MODAL FOR LISTS (BANK, MONTHS, DETAILS) */
     #list-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 10px; }
     .list-modal-content { background: rgba(10, 10, 20, 0.95); border: 2px solid var(--cyan); border-radius: 16px; width: 100%; max-width: 700px; max-height: 90dvh; display: flex; flex-direction: column; }
-    .list-modal-header { display: flex; justify-content: space-between; padding: 15px 20px; border-bottom: 2px solid rgba(0, 242, 255, 0.2); }
+    .list-modal-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 2px solid rgba(0, 242, 255, 0.2); gap: 10px; flex-wrap: wrap; }
     .list-modal-body { padding: 20px; overflow-y: auto; }
     .list-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: rgba(255,255,255,0.03); border-radius: 8px; margin-bottom: 8px; border-left: 3px solid; gap: 10px; flex-wrap: wrap; }
     .list-item-info { flex: 1; min-width: 150px; }
@@ -192,6 +191,19 @@
     .month-selector-btn { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #fff; margin-bottom: 8px; cursor: pointer; border-left: 3px solid var(--purple); transition: all 0.2s; }
     .month-selector-btn:hover { background: rgba(255, 255, 255, 0.1); transform: translateX(3px); }
 
+    /* Add-new button inside list modal */
+    .btn-add-in-modal {
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 8px 14px; border-radius: 8px; cursor: pointer;
+        font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 700;
+        letter-spacing: 1px; text-transform: uppercase;
+        background: linear-gradient(135deg, var(--cyan), var(--purple));
+        color: #050508; border: none; transition: all 0.2s ease;
+        white-space: nowrap;
+    }
+    .btn-add-in-modal:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0, 242, 255, 0.4); }
+    .btn-add-in-modal i { font-size: 12px; }
+
     /* ===========================================
        RESPONSIVE
        =========================================== */
@@ -203,7 +215,6 @@
         .sidebar-btn { width: auto; padding: 10px 14px; margin: 0; flex: 1 1 auto; justify-content: center; font-size: 11px; }
         .sidebar-btn i { display: none; }
         .sidebar-btn span { text-align: center; }
-        .btn-months { margin-top: 0; }
         .sidebar-widget { width: 100%; margin-top: 5px; padding: 10px; }
         .dashboard { height: auto; overflow: visible; }
         .transactions-section { max-height: none; min-height: 50vh; }
@@ -236,6 +247,9 @@
         .transactions-table td:nth-child(3) { grid-area: amount; font-size: 16px; text-align: right; }
         .transactions-table td:nth-child(4) { grid-area: actions; justify-self: end; margin-top: 4px; }
         .transactions-table td:nth-child(4) .action-btn { width: 32px; height: 32px; font-size: 13px; }
+
+        .list-modal-header { flex-wrap: wrap; }
+        .btn-add-in-modal { width: 100%; justify-content: center; margin-top: 8px; }
     }
 
     @media (max-width: 480px) {
@@ -297,10 +311,6 @@
                 <button class="sidebar-btn btn-analysis" id="btn-open-analysis">
                     <i class="fas fa-table"></i>
                     <span>ΑΝΑΛΥΣΗ</span>
-                </button>
-                <button class="sidebar-btn btn-transaction" id="btn-open-transaction">
-                    <i class="fas fa-plus"></i>
-                    <span>ΚΑΤΑΧΩΡΗΣΗ</span>
                 </button>
                 <button class="sidebar-btn btn-import" id="btn-import-data">
                     <i class="fas fa-upload"></i>
@@ -397,7 +407,12 @@
         <div class="list-modal-content">
             <div class="list-modal-header" id="list-modal-header">
                 <h3 id="list-modal-title" style="color: var(--cyan); font-family: 'Orbitron';">ΛΙΣΤΑ</h3>
-                <button id="btn-close-list-modal" style="background: none; border: none; color: #fff; cursor: pointer; font-size: 18px;"><i class="fas fa-times"></i></button>
+                <div style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                    <button id="btn-add-in-list" class="btn-add-in-modal" style="display: none;">
+                        <i class="fas fa-plus"></i> ΝΕΑ ΚΑΤΑΧΩΡΗΣΗ
+                    </button>
+                    <button id="btn-close-list-modal" style="background: none; border: none; color: #fff; cursor: pointer; font-size: 18px;"><i class="fas fa-times"></i></button>
+                </div>
             </div>
             <div class="list-modal-body">
                 <div id="list-modal-summary" style="margin-bottom: 15px; display: none; justify-content: space-between; align-items: center;">
@@ -466,6 +481,7 @@
     const EXPENSE_COLOR = '#ff4757';
 
     let db = JSON.parse(localStorage.getItem('pane_db_v2')) || [];
+    let currentListBankCategory = null;
 
     function renderTransactionList(transactions, emptyMessage = "Δεν υπάρχουν συναλλαγές") {
         if (transactions.length === 0) {
@@ -608,13 +624,14 @@
         });
 
         const title = `${MONTHS_GREEK[monthIndex]} - ${CATEGORY_NAMES[category]}`;
-        openListModal(title, data, CATEGORY_COLORS[category]);
+        // Από την Ανάλυση ΔΕΝ θέλουμε κουμπί νέας καταχώρησης → περνάμε null για bankCategory
+        openListModal(title, data, CATEGORY_COLORS[category], null);
     }
 
     function openBankDetails(category) {
         const data = db.filter(e => e.category === category);
         const title = CATEGORY_NAMES[category];
-        openListModal(title, data, CATEGORY_COLORS[category]);
+        openListModal(title, data, CATEGORY_COLORS[category], category);
     }
 
     function showMonths() {
@@ -645,6 +662,9 @@
         document.getElementById('list-modal-title').style.color = "var(--purple)";
         document.getElementById('list-modal-summary').style.display = 'none';
         document.getElementById('list-modal-content').innerHTML = html;
+        const addBtn = document.getElementById('btn-add-in-list');
+        addBtn.style.display = 'none';
+        currentListBankCategory = null;
         document.getElementById('list-modal-overlay').style.display = 'flex';
     }
 
@@ -656,10 +676,10 @@
         });
 
         const title = `${MONTHS_GREEK[monthIndex]} ${currentYear}`;
-        openListModal(title, data);
+        openListModal(title, data, null, null);
     }
 
-    function openListModal(title, data, color = null) {
+    function openListModal(title, data, color = null, bankCategory = null) {
         document.getElementById('list-modal-title').textContent = title;
         document.getElementById('list-modal-title').style.color = color || "var(--cyan)";
         
@@ -676,18 +696,29 @@
         totalEl.style.color = color || (total >= 0 ? INCOME_COLOR : EXPENSE_COLOR);
         
         document.getElementById('list-modal-content').innerHTML = renderTransactionList(data);
+
+        const addBtn = document.getElementById('btn-add-in-list');
+        if (bankCategory) {
+            addBtn.style.display = 'inline-flex';
+            currentListBankCategory = bankCategory;
+            addBtn.innerHTML = `<i class="fas fa-plus"></i> ΝΕΑ ΣΤΗΝ ${CATEGORY_NAMES[bankCategory]}`;
+        } else {
+            addBtn.style.display = 'none';
+            currentListBankCategory = null;
+        }
+
         document.getElementById('list-modal-overlay').style.display = 'flex';
     }
 
     function setupEventListeners() {
         document.getElementById('btn-open-analysis').onclick = showAnalysis;
         document.getElementById('btn-close-analysis').onclick = () => document.getElementById('analysis-panel').classList.remove('active');
-        
-        document.getElementById('btn-open-transaction').onclick = () => {
-            document.getElementById('modal-overlay').style.display = 'flex';
-            document.getElementById('in-amount').value = '';
-            document.getElementById('in-desc').value = '';
-            document.getElementById('in-cat').value = 'piraeus';
+
+        document.getElementById('btn-add-in-list').onclick = () => {
+            if (currentListBankCategory) {
+                document.getElementById('list-modal-overlay').style.display = 'none';
+                openTransactionForm(currentListBankCategory);
+            }
         };
         
         document.getElementById('btn-close-list-modal').onclick = () => document.getElementById('list-modal-overlay').style.display = 'none';
@@ -707,20 +738,35 @@
             reader.onload = (ev) => {
                 try {
                     const imported = JSON.parse(ev.target.result);
+                    if (!Array.isArray(imported)) throw new Error('Invalid data format');
                     const existingIds = new Set(db.map(i => i.id));
-                    const newEntries = imported.filter(i => !existingIds.has(i.id));
+                    const newEntries = imported.filter(i => i && i.id && !existingIds.has(i.id));
                     db.push(...newEntries);
                     localStorage.setItem('pane_db_v2', JSON.stringify(db));
                     updateDashboard();
                     alert(`${newEntries.length} νέες καταχωρήσεις!`);
                 } catch (err) { alert('Σφάλμα αρχείου'); }
+                e.target.value = '';
             };
             reader.readAsText(file);
         };
     }
 
+    function openTransactionForm(presetCategory = null) {
+        const modal = document.getElementById('modal-overlay');
+        modal.style.display = 'flex';
+        document.getElementById('in-amount').value = '';
+        document.getElementById('in-desc').value = '';
+        document.getElementById('in-type').value = 'income';
+        document.getElementById('in-date').value = new Date().toISOString().split('T')[0];
+        document.getElementById('in-cat').value = presetCategory || 'piraeus';
+        document.getElementById('btn-save-entry').onclick = saveEntry;
+        setTimeout(() => document.getElementById('in-amount').focus(), 100);
+    }
+
     function closeModal() {
         document.getElementById('modal-overlay').style.display = 'none';
+        document.getElementById('btn-save-entry').onclick = saveEntry;
     }
 
     function saveEntry() {
@@ -734,6 +780,7 @@
         };
 
         if (entry.amount <= 0) return alert('Εισάγετε έγκυρο ποσό.');
+        if (!entry.date) return alert('Εισάγετε ημερομηνία.');
 
         db.push(entry);
         localStorage.setItem('pane_db_v2', JSON.stringify(db));
@@ -746,23 +793,55 @@
         db = db.filter(entry => entry.id !== id);
         localStorage.setItem('pane_db_v2', JSON.stringify(db));
         updateDashboard();
-        document.getElementById('list-modal-overlay').style.display = 'none'; 
+        document.getElementById('list-modal-overlay').style.display = 'none';
     }
     
     function editTransaction(id) {
-        alert("Η επεξεργασία θα ανοίξει εδώ.");
+        const entry = db.find(e => e.id === id);
+        if (!entry) return;
+        
+        document.getElementById('list-modal-overlay').style.display = 'none';
+
+        document.getElementById('modal-overlay').style.display = 'flex';
+        document.getElementById('in-date').value = entry.date;
+        document.getElementById('in-type').value = entry.type;
+        document.getElementById('in-cat').value = entry.category;
+        document.getElementById('in-amount').value = entry.amount;
+        document.getElementById('in-desc').value = entry.desc || '';
+        
+        const saveBtn = document.getElementById('btn-save-entry');
+        saveBtn.onclick = function() {
+            const updated = {
+                id: entry.id,
+                date: document.getElementById('in-date').value,
+                type: document.getElementById('in-type').value,
+                category: document.getElementById('in-cat').value,
+                amount: parseFloat(document.getElementById('in-amount').value) || 0,
+                desc: document.getElementById('in-desc').value.trim()
+            };
+            if (updated.amount <= 0) return alert('Εισάγετε έγκυρο ποσό.');
+            if (!updated.date) return alert('Εισάγετε ημερομηνία.');
+            
+            const index = db.findIndex(e => e.id === entry.id);
+            if (index !== -1) {
+                db[index] = updated;
+                localStorage.setItem('pane_db_v2', JSON.stringify(db));
+                updateDashboard();
+                closeModal();
+            }
+        };
     }
     
-    // Εδώ είναι η αλλαγή για την ημερομηνία στο αρχείο εξαγωγής
     function exportData() {
         const today = new Date();
-        const dateStr = today.toISOString().split('T')[0]; // Παίρνει τη μορφή YYYY-MM-DD
+        const dateStr = today.toISOString().split('T')[0];
         
         const blob = new Blob([JSON.stringify(db, null, 2)], { type: 'application/json' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = `pane_data_${dateStr}.json`; // Εδώ μπαίνει η ημερομηνία
+        a.download = `pane_data_${dateStr}.json`;
         a.click();
+        URL.revokeObjectURL(a.href);
     }
     </script>
 </body>
